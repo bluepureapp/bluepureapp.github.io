@@ -750,3 +750,132 @@ input::-webkit-inner-spin-button {
         max-width: none;
     }
 }
+
+/* ============================================
+   PWA & INSTALL BUTTON STYLES
+   ============================================ */
+
+/* Logo Icon */
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+/* Install Button */
+.pwa-install {
+    background: linear-gradient(135deg, #48BB78 0%, #38A169 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.pwa-install:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(72, 187, 120, 0.4);
+}
+
+.pwa-install:active {
+    transform: translateY(0);
+}
+
+/* PWA Toast */
+.pwa-toast {
+    border-left: 5px solid #48BB78;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+/* PWA Note in Footer */
+.pwa-note {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #3A8DFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Offline Indicator */
+.offline-indicator {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: #ED8936;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    display: none;
+    z-index: 1002;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Header adjustments for PWA button */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tagline {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+    
+    .logo {
+        order: 1;
+        flex: 1;
+    }
+    
+    .pwa-install {
+        order: 2;
+    }
+    
+    .tagline {
+        order: 3;
+        position: relative;
+        left: auto;
+        transform: none;
+        width: 100%;
+        margin-top: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .pwa-note {
+        display: none;
+    }
+}
