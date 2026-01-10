@@ -3,9 +3,9 @@
 // ============================================
 
 const EMAILJS_CONFIG = {
-    SERVICE_ID: "service_bluepure",
-    TEMPLATE_ID: "template_bluepure_labels",
-    PUBLIC_KEY: "user_YOUR_PUBLIC_KEY_HERE",
+    SERVICE_ID: "Bluepureapp",
+    TEMPLATE_ID: "template_xtkxr3h",
+    PUBLIC_KEY: "WwjEVbDtQjkRZqBWq",
     YOUR_EMAIL: "bluepureindia@gmail.com"
 };
 
