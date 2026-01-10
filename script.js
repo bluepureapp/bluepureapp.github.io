@@ -1,64 +1,64 @@
 // ============================================
-// CONFIGURATION - CHANGE THESE VALUES
+// CONFIGURATION
 // ============================================
 
-// EmailJS Configuration
+// EmailJS Configuration - REPLACE WITH YOUR OWN
 const EMAILJS_CONFIG = {
-    SERVICE_ID: "YOUR_SERVICE_ID",     // Replace with your service ID
-    TEMPLATE_ID: "YOUR_TEMPLATE_ID",   // Replace with your template ID
-    PUBLIC_KEY: "YOUR_PUBLIC_KEY",     // Replace with your public key
-    YOUR_EMAIL: "bluepureapp@gmail.com"
+    SERVICE_ID: "Bluepureapp",
+    TEMPLATE_ID: "template_6fln34h",
+    PUBLIC_KEY: "WwjEVbDtQjkRZqBWq",
+    YOUR_EMAIL: "bluepureindia@gmail.com"
 };
 
-// Theme Data
+// BluePure Label Themes
 const THEMES = [
     {
-        id: "ocean-blue",
-        name: "Ocean Blue",
-        tag: "Popular",
-        description: "Calm blue theme with wave animations perfect for corporate websites.",
-        features: ["Smooth wave animations", "Blue gradient backgrounds", "Modern card design"],
-        color: "#3A8DFF"
+        id: "premium-gold",
+        name: "Premium Gold Labels",
+        tag: "Luxury",
+        description: "Gold foil labels with elegant design for luxury products and high-end packaging.",
+        features: ["Gold foil finishing", "Water-resistant", "Premium adhesive", "Custom shapes"],
+        color: "#D4AF37"
     },
     {
-        id: "forest-green",
-        name: "Forest Green",
-        tag: "Eco-Friendly",
-        description: "Nature-inspired theme with leaf animations and earthy tones.",
-        features: ["Leaf particle effects", "Natural color palette", "Organic shapes"],
+        id: "eco-friendly",
+        name: "Eco-Friendly Labels",
+        tag: "Sustainable",
+        description: "Biodegradable labels made from recycled materials for environmentally conscious brands.",
+        features: ["Recycled materials", "Biodegradable", "Eco-friendly ink", "Natural adhesive"],
         color: "#48BB78"
     },
     {
-        id: "sunset-orange",
-        name: "Sunset Orange",
-        tag: "Energetic",
-        description: "Warm and vibrant theme with glowing effects and smooth transitions.",
-        features: ["Glow animations", "Warm color scheme", "Dynamic shadows"],
-        color: "#ED8936"
+        id: "transparent-clear",
+        name: "Transparent Clear Labels",
+        tag: "Modern",
+        description: "Crystal clear labels that blend seamlessly with any product packaging.",
+        features: ["100% transparent", "UV resistant", "Scratch-proof", "No background"],
+        color: "#4299E1"
     },
     {
-        id: "midnight-purple",
-        name: "Midnight Purple",
-        tag: "Premium",
-        description: "Dark theme with neon accents and星空 effects for a premium look.",
-        features: ["Star field background", "Neon glow effects", "Dark mode optimized"],
-        color: "#9F7AEA"
+        id: "metallic-silver",
+        name: "Metallic Silver Labels",
+        tag: "Professional",
+        description: "Silver metallic labels for a sleek, professional look on industrial and tech products.",
+        features: ["Metallic finish", "Industrial grade", "Weather resistant", "Long-lasting"],
+        color: "#A0AEC0"
     },
     {
-        id: "minimal-white",
-        name: "Minimal White",
-        tag: "Clean",
-        description: "Ultra-clean design with subtle animations and maximum readability.",
-        features: ["Minimal animations", "High contrast", "Focus on typography"],
+        id: "colorful-print",
+        name: "Colorful Print Labels",
+        tag: "Vibrant",
+        description: "Full-color printed labels with vibrant graphics for food, beverage, and retail products.",
+        features: ["Full-color printing", "High-resolution", "Food-safe", "Custom artwork"],
+        color: "linear-gradient(135deg, #ED8936, #9F7AEA, #4299E1)"
+    },
+    {
+        id: "waterproof-industrial",
+        name: "Waterproof Industrial Labels",
+        tag: "Durable",
+        description: "Heavy-duty waterproof labels designed for industrial use and outdoor applications.",
+        features: ["100% waterproof", "Chemical resistant", "High temperature", "Extra adhesive"],
         color: "#2D3748"
-    },
-    {
-        id: "gradient-mix",
-        name: "Gradient Mix",
-        tag: "Colorful",
-        description: "Dynamic gradient theme that changes colors based on user interaction.",
-        features: ["Color-changing gradients", "Interactive elements", "Smooth transitions"],
-        color: "linear-gradient(135deg, #3A8DFF, #48BB78, #ED8936)"
     }
 ];
 
@@ -101,11 +101,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeApp() {
     // Initialize EmailJS
-    if (EMAILJS_CONFIG.PUBLIC_KEY && EMAILJS_CONFIG.PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
-        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    if (EMAILJS_CONFIG.PUBLIC_KEY && EMAILJS_CONFIG.PUBLIC_KEY !== "user_YOUR_PUBLIC_KEY_HERE") {
+        try {
+            emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+            console.log('✅ EmailJS initialized');
+        } catch (error) {
+            console.warn('⚠️ EmailJS initialization failed:', error);
+        }
     }
     
-    // Load user data from localStorage
+    // Load user data
     loadUserData();
     
     // Check PWA status
@@ -117,161 +122,11 @@ function initializeApp() {
     // Setup event listeners
     setupEventListeners();
     
-    // Add no-select class to elements
-    addNoSelectClasses();
-    
     // Initialize network status
     updateNetworkStatus();
     
-    // Show PWA install prompt after delay
-    setTimeout(showPWAInstallPrompt, 3000);
-}
-
-// ============================================
-// PWA FUNCTIONALITY
-// ============================================
-function checkPWAStatus() {
-    currentState.isPWAInstalled = window.matchMedia('(display-mode: standalone)').matches || 
-                                  window.navigator.standalone ||
-                                  document.referrer.includes('android-app://');
-    
-    if (currentState.isPWAInstalled) {
-        if (dom.installButton) dom.installButton.style.display = 'none';
-        if (dom.pwaToast) dom.pwaToast.style.display = 'none';
-        console.log('📱 Running as installed PWA');
-    }
-}
-
-function showPWAInstallPrompt() {
-    if (currentState.isPWAInstalled || !dom.pwaToast) return;
-    
-    // Show toast after 3 seconds if not installed
-    setTimeout(() => {
-        if (dom.pwaToast && !currentState.isPWAInstalled) {
-            dom.pwaToast.style.display = 'flex';
-        }
-    }, 3000);
-}
-
-// PWA Install Prompt Handler
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    currentState.deferredPrompt = e;
-    
-    if (dom.installButton) {
-        dom.installButton.style.display = 'flex';
-    }
-});
-
-if (dom.installButton) {
-    dom.installButton.addEventListener('click', async () => {
-        if (!currentState.deferredPrompt) return;
-        
-        currentState.deferredPrompt.prompt();
-        const { outcome } = await currentState.deferredPrompt.userChoice;
-        
-        if (outcome === 'accepted') {
-            console.log('✅ PWA installed');
-            if (dom.installButton) {
-                dom.installButton.innerHTML = '<i class="fas fa-check"></i><span>Installed</span>';
-                dom.installButton.style.background = '#48BB78';
-            }
-            if (dom.pwaToast) dom.pwaToast.style.display = 'none';
-            currentState.isPWAInstalled = true;
-        }
-        
-        currentState.deferredPrompt = null;
-        if (dom.installButton) dom.installButton.style.display = 'none';
-    });
-}
-
-if (dom.pwaClose) {
-    dom.pwaClose.addEventListener('click', () => {
-        if (dom.pwaToast) dom.pwaToast.style.display = 'none';
-    });
-}
-
-// Network Status
-function updateNetworkStatus() {
-    if (!navigator.onLine) {
-        showOfflineIndicator();
-    }
-}
-
-function showOfflineIndicator() {
-    if (dom.offlineIndicator) {
-        dom.offlineIndicator.style.display = 'flex';
-    }
-}
-
-function hideOfflineIndicator() {
-    if (dom.offlineIndicator) {
-        dom.offlineIndicator.style.display = 'none';
-    }
-}
-
-window.addEventListener('online', () => {
-    hideOfflineIndicator();
-    showToast('Back online!', 2000);
-});
-
-window.addEventListener('offline', () => {
-    showOfflineIndicator();
-    showToast('Offline mode - some features limited', 3000);
-});
-
-// ============================================
-// LOCALSTORAGE MANAGEMENT
-// ============================================
-function loadUserData() {
-    const savedData = localStorage.getItem('bluepure_user');
-    if (savedData) {
-        try {
-            currentState.userData = JSON.parse(savedData);
-            console.log('✅ User data loaded');
-        } catch (e) {
-            console.error('Error parsing saved data:', e);
-            localStorage.removeItem('bluepure_user');
-        }
-    }
-}
-
-function saveUserData(userData) {
-    const dataToSave = {
-        ...userData,
-        lastUpdated: new Date().toISOString(),
-        isPWA: currentState.isPWAInstalled
-    };
-    
-    localStorage.setItem('bluepure_user', JSON.stringify(dataToSave));
-    currentState.userData = dataToSave;
-    console.log('💾 User data saved');
-    
-    // Save to IndexedDB for PWA offline capability
-    if ('indexedDB' in window) {
-        saveToIndexedDB(dataToSave);
-    }
-}
-
-async function saveToIndexedDB(data) {
-    // Simple IndexedDB for PWA offline storage
-    if (!window.indexedDB) return;
-    
-    const request = indexedDB.open('BluePureDB', 1);
-    
-    request.onupgradeneeded = function(event) {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains('submissions')) {
-            db.createObjectStore('submissions', { keyPath: 'id' });
-        }
-    };
-    
-    request.onsuccess = function(event) {
-        const db = event.target.result;
-        const transaction = db.transaction(['submissions'], 'readwrite');
-        const store = transaction.objectStore('submissions');
-        store.put({ ...data, synced: false, timestamp: Date.now() });
-    };
+    // Suppress Tidio font warnings
+    suppressTidioWarnings();
 }
 
 // ============================================
@@ -298,7 +153,9 @@ function createThemeCard(theme) {
         : `background: ${theme.color};`;
     
     card.innerHTML = `
-        <div class="theme-image" style="${patternStyle}"></div>
+        <div class="theme-image" style="${patternStyle}">
+            <div class="theme-badge">Label Sample</div>
+        </div>
         <div class="theme-content">
             <div class="theme-name">
                 <span>${theme.name}</span>
@@ -311,8 +168,8 @@ function createThemeCard(theme) {
                 `).join('')}
             </ul>
             <button class="btn-choose no-select" data-theme-id="${theme.id}">
-                <i class="fas fa-magic"></i>
-                Choose This Design
+                <i class="fas fa-tags"></i>
+                Select This Label
             </button>
         </div>
     `;
@@ -327,26 +184,28 @@ function showForm(theme) {
     currentState.selectedTheme = theme;
     currentState.isFormVisible = true;
     
-    // Update preview
     if (dom.selectedThemePreview) {
         dom.selectedThemePreview.innerHTML = `
             <h4>Selected: ${theme.name}</h4>
-            <p>You're about to select the "${theme.name}" theme. Please provide your details below.</p>
+            <p>You've selected "${theme.name}" labels. Share your details for a custom quote.</p>
         `;
     }
     
-    // Show modal
     if (dom.formModal) {
         dom.formModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
     
-    // Clear form if needed
     if (!currentState.userData && dom.userForm) {
         dom.userForm.reset();
     }
     
-    // Auto-focus name field
+    // Set placeholder for Indian phone
+    if (dom.userPhone) {
+        dom.userPhone.value = '+91 ';
+        dom.userPhone.setSelectionRange(4, 4); // Place cursor after +91
+    }
+    
     setTimeout(() => {
         if (dom.userName) dom.userName.focus();
     }, 300);
@@ -361,15 +220,69 @@ function hideForm() {
 }
 
 // ============================================
+// PHONE NUMBER FORMATTING
+// ============================================
+function formatIndianPhoneNumber(input) {
+    // Remove all non-digits
+    let numbers = input.replace(/\D/g, '');
+    
+    // Remove the country code (91) if user typed it
+    if (numbers.startsWith('91')) {
+        numbers = numbers.substring(2);
+    }
+    
+    // Keep only first 10 digits
+    numbers = numbers.substring(0, 10);
+    
+    // Format: +91 XXXXX XXXXX (5-5 format)
+    let formatted = '+91';
+    if (numbers.length > 0) {
+        formatted += ' ' + numbers.substring(0, 5);
+    }
+    if (numbers.length > 5) {
+        formatted += ' ' + numbers.substring(5, 10);
+    }
+    
+    return formatted;
+}
+
+function validateIndianPhone(phone) {
+    // Remove formatting and spaces
+    const cleanPhone = phone.replace(/\D/g, '');
+    
+    // Should have country code + 10 digits = 12 digits total
+    if (cleanPhone.length !== 12) {
+        return false;
+    }
+    
+    // Should start with 91 (India country code)
+    if (!cleanPhone.startsWith('91')) {
+        return false;
+    }
+    
+    // Check if it's a valid Indian number (after 91)
+    const subscriberNumber = cleanPhone.substring(2);
+    
+    // Indian mobile numbers start with 6,7,8,9
+    const validStart = ['6', '7', '8', '9'];
+    if (!validStart.includes(subscriberNumber.charAt(0))) {
+        return false;
+    }
+    
+    return true;
+}
+
+// ============================================
 // NOTIFICATION SYSTEM
 // ============================================
 async function sendNotification(userData, theme) {
-    console.log('📤 Sending notification...');
+    console.log('📨 Sending label quote request...');
     
     // Check if EmailJS is configured
-    if (!EMAILJS_CONFIG.PUBLIC_KEY || EMAILJS_CONFIG.PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
-        console.log('📝 EmailJS not configured - using fallback');
-        return showFallbackNotification(userData, theme);
+    if (!EMAILJS_CONFIG.PUBLIC_KEY || EMAILJS_CONFIG.PUBLIC_KEY === "user_YOUR_PUBLIC_KEY_HERE") {
+        console.log('📝 EmailJS not configured - saving locally');
+        saveLocalNotification(userData, theme);
+        return false;
     }
     
     try {
@@ -377,11 +290,15 @@ async function sendNotification(userData, theme) {
             to_email: EMAILJS_CONFIG.YOUR_EMAIL,
             user_name: userData.name,
             user_phone: userData.phone,
-            theme_name: theme.name,
-            theme_id: theme.id,
-            timestamp: new Date().toLocaleString(),
+            label_type: theme.name,
+            label_id: theme.id,
+            timestamp: new Date().toLocaleString('en-IN', { 
+                timeZone: 'Asia/Kolkata',
+                dateStyle: 'full',
+                timeStyle: 'short' 
+            }),
             user_id: userData.id || 'N/A',
-            is_pwa: currentState.isPWAInstalled
+            business_name: "BluePure Labels Inquiry"
         };
         
         const response = await emailjs.send(
@@ -395,66 +312,160 @@ async function sendNotification(userData, theme) {
         
     } catch (error) {
         console.error('❌ EmailJS error:', error);
-        return showFallbackNotification(userData, theme);
+        saveLocalNotification(userData, theme);
+        return false;
     }
 }
 
-function showFallbackNotification(userData, theme) {
-    const notification = `
-    🎨 BLUEPURE - NEW THEME SELECTION
-    ================================
-    👤 Name: ${userData.name}
-    📞 Phone: ${userData.phone}
-    🎯 Theme: ${theme.name}
-    ⏰ Time: ${new Date().toLocaleString()}
-    📱 PWA: ${currentState.isPWAInstalled ? 'Yes' : 'No'}
-    ================================
-    `;
-    
-    console.log(notification);
-    
-    // Save for offline sync
-    if ('indexedDB' in window) {
-        saveOfflineNotification(userData, theme);
-    }
-    
-    return false;
-}
-
-function saveOfflineNotification(userData, theme) {
-    const request = indexedDB.open('BluePureDB', 1);
-    
-    request.onsuccess = function(event) {
-        const db = event.target.result;
-        const transaction = db.transaction(['notifications'], 'readwrite');
-        const store = transaction.objectStore('notifications');
-        
-        const notification = {
-            id: Date.now(),
-            userData,
-            theme,
-            timestamp: new Date().toISOString(),
-            synced: false
-        };
-        
-        store.put(notification);
+function saveLocalNotification(userData, theme) {
+    const notification = {
+        id: Date.now(),
+        userData,
+        theme,
+        timestamp: new Date().toISOString(),
+        synced: false
     };
+    
+    // Save to localStorage as fallback
+    const savedNotifications = JSON.parse(localStorage.getItem('bluepure_notifications') || '[]');
+    savedNotifications.push(notification);
+    localStorage.setItem('bluepure_notifications', JSON.stringify(savedNotifications));
+    
+    console.log('📝 Notification saved locally:', notification);
+    
+    // Show admin link in console
+    console.log('%c📋 ADMIN: View all submissions:', 'color: #3A8DFF; font-weight: bold;');
+    console.log('%ccopy(JSON.parse(localStorage.getItem(\'bluepure_notifications\')))', 
+        'background: #2D3748; color: white; padding: 5px; border-radius: 3px;');
 }
+
+// ============================================
+// LOCALSTORAGE MANAGEMENT
+// ============================================
+function loadUserData() {
+    const savedData = localStorage.getItem('bluepure_user');
+    if (savedData) {
+        try {
+            currentState.userData = JSON.parse(savedData);
+            console.log('👤 Returning user loaded');
+        } catch (e) {
+            console.error('Error parsing saved data:', e);
+            localStorage.removeItem('bluepure_user');
+        }
+    }
+}
+
+function saveUserData(userData) {
+    const dataToSave = {
+        ...userData,
+        lastUpdated: new Date().toISOString(),
+        isPWA: currentState.isPWAInstalled,
+        location: "India"
+    };
+    
+    localStorage.setItem('bluepure_user', JSON.stringify(dataToSave));
+    currentState.userData = dataToSave;
+    console.log('💾 User data saved');
+}
+
+// ============================================
+// PWA FUNCTIONALITY
+// ============================================
+function checkPWAStatus() {
+    currentState.isPWAInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                                  window.navigator.standalone ||
+                                  document.referrer.includes('android-app://');
+    
+    if (currentState.isPWAInstalled) {
+        if (dom.installButton) dom.installButton.style.display = 'none';
+        if (dom.pwaToast) dom.pwaToast.style.display = 'none';
+    }
+}
+
+// PWA Install Prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    currentState.deferredPrompt = e;
+    
+    if (dom.installButton) {
+        dom.installButton.style.display = 'flex';
+    }
+    
+    // Show toast after 5 seconds
+    setTimeout(() => {
+        if (dom.pwaToast && !currentState.isPWAInstalled) {
+            dom.pwaToast.style.display = 'flex';
+        }
+    }, 5000);
+});
+
+if (dom.installButton) {
+    dom.installButton.addEventListener('click', async () => {
+        if (!currentState.deferredPrompt) return;
+        
+        currentState.deferredPrompt.prompt();
+        const { outcome } = await currentState.deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+            console.log('✅ BluePure PWA installed');
+            if (dom.installButton) {
+                dom.installButton.innerHTML = '<i class="fas fa-check"></i><span>Installed</span>';
+                dom.installButton.style.background = '#48BB78';
+            }
+            if (dom.pwaToast) dom.pwaToast.style.display = 'none';
+            currentState.isPWAInstalled = true;
+        }
+        
+        currentState.deferredPrompt = null;
+        if (dom.installButton) dom.installButton.style.display = 'none';
+    });
+}
+
+if (dom.pwaClose) {
+    dom.pwaClose.addEventListener('click', () => {
+        if (dom.pwaToast) dom.pwaToast.style.display = 'none';
+    });
+}
+
+// ============================================
+// NETWORK STATUS
+// ============================================
+function updateNetworkStatus() {
+    if (!navigator.onLine) {
+        showOfflineIndicator();
+    }
+}
+
+function showOfflineIndicator() {
+    if (dom.offlineIndicator) {
+        dom.offlineIndicator.style.display = 'flex';
+    }
+}
+
+function hideOfflineIndicator() {
+    if (dom.offlineIndicator) {
+        dom.offlineIndicator.style.display = 'none';
+    }
+}
+
+window.addEventListener('online', () => {
+    hideOfflineIndicator();
+    showToast('Back online! Submitting your request...', 2000);
+});
+
+window.addEventListener('offline', () => {
+    showOfflineIndicator();
+    showToast('Offline mode - Your data will sync when back online', 3000);
+});
 
 // ============================================
 // UTILITY FUNCTIONS
 // ============================================
 function generateUserId() {
-    return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    return 'bluepure_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
 }
 
-function validatePhone(phone) {
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    const cleaned = phone.replace(/[\s\-\(\)\.\+]/g, '');
-    return phoneRegex.test(cleaned);
-}
-
-function showToast(message, duration = 5000) {
+function showToast(message, duration = 4000) {
     if (!dom.successToast) return;
     
     const toastContent = dom.successToast.querySelector('.toast-content h4');
@@ -463,8 +474,8 @@ function showToast(message, duration = 5000) {
     }
     
     dom.successToast.style.display = 'flex';
+    dom.successToast.style.animation = 'slideInRight 0.5s ease';
     
-    // Auto hide
     setTimeout(() => {
         dom.successToast.style.animation = 'slideOutRight 0.5s ease forwards';
         setTimeout(() => {
@@ -474,14 +485,14 @@ function showToast(message, duration = 5000) {
     }, duration);
 }
 
-function addNoSelectClasses() {
-    const noSelectElements = document.querySelectorAll(
-        'button, .theme-card, .stat-card, .logo, .tagline, .pwa-install'
-    );
-    
-    noSelectElements.forEach(el => {
-        el.classList.add('no-select');
-    });
+function suppressTidioWarnings() {
+    const originalWarn = console.warn;
+    console.warn = function(...args) {
+        if (typeof args[0] === 'string' && args[0].includes('code.tidio.co')) {
+            return; // Suppress Tidio warnings
+        }
+        originalWarn.apply(console, args);
+    };
 }
 
 // ============================================
@@ -503,13 +514,13 @@ function setupEventListeners() {
                     // Returning user
                     const userData = {
                         ...currentState.userData,
-                        selectedTheme: theme.name,
-                        selectionTime: new Date().toISOString()
+                        selectedLabel: theme.name,
+                        lastSelection: new Date().toISOString()
                     };
                     
                     saveUserData(userData);
                     sendNotification(userData, theme);
-                    showToast(`Updated! ${theme.name} theme selected`);
+                    showToast(`Updated selection: ${theme.name} labels`);
                     
                 } else {
                     // New user
@@ -529,12 +540,12 @@ function setupEventListeners() {
             
             // Validation
             if (name.length < 2) {
-                alert('Please enter a valid name (at least 2 characters)');
+                alert('Please enter your full name (minimum 2 characters)');
                 return;
             }
             
-            if (!validatePhone(phone)) {
-                alert('Please enter a valid phone number');
+            if (!validateIndianPhone(phone)) {
+                alert('Please enter a valid Indian phone number (10 digits after +91)\nExample: +91 98765 43210');
                 return;
             }
             
@@ -543,22 +554,22 @@ function setupEventListeners() {
                 id: generateUserId(),
                 name: name,
                 phone: phone,
-                selectedTheme: currentState.selectedTheme.name,
-                themeId: currentState.selectedTheme.id,
-                firstSelectionTime: new Date().toISOString(),
-                device: navigator.userAgent,
+                selectedLabel: currentState.selectedTheme.name,
+                labelId: currentState.selectedTheme.id,
+                inquiryDate: new Date().toISOString(),
+                source: 'BluePure Website',
                 isPWA: currentState.isPWAInstalled
             };
             
-            // Disable button and show loading
+            // Button loading state
             const originalText = dom.submitBtn?.innerHTML || '';
             if (dom.submitBtn) {
-                dom.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                dom.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
                 dom.submitBtn.disabled = true;
             }
             
             try {
-                // Save to localStorage
+                // Save user data
                 saveUserData(userData);
                 
                 // Send notification
@@ -567,21 +578,21 @@ function setupEventListeners() {
                 // Hide form
                 hideForm();
                 
-                // Show success
+                // Show success message
                 if (notificationSent) {
-                    showToast(`Perfect! ${currentState.selectedTheme.name} theme selected`);
+                    showToast(`Thank you ${name}! We'll contact you soon for your ${currentState.selectedTheme.name} labels.`);
                 } else {
-                    showToast(`Theme selected! (Saved offline)`);
+                    showToast(`Request saved! We'll contact you at ${phone} for ${currentState.selectedTheme.name} labels.`);
                 }
                 
-                // Vibrate on mobile if available
+                // Mobile vibration feedback
                 if (navigator.vibrate) {
                     navigator.vibrate(100);
                 }
                 
             } catch (error) {
-                console.error('Error:', error);
-                alert('Something went wrong. Please try again.');
+                console.error('Submission error:', error);
+                showToast('Something went wrong. Please try again or contact us directly.', 5000);
             } finally {
                 // Restore button
                 if (dom.submitBtn) {
@@ -593,24 +604,54 @@ function setupEventListeners() {
     }
     
     // Cancel button
-    if (dom.cancelBtn) {
+     if (dom.cancelBtn) {
         dom.cancelBtn.addEventListener('click', function(e) {
             e.preventDefault();
             hideForm();
         });
     }
     
-    // Toast close button
-    const toastClose = document.querySelector('.toast-close');
-    if (toastClose) {
-        toastClose.addEventListener('click', function() {
-            if (dom.successToast) {
-                dom.successToast.style.display = 'none';
+    // Phone number input formatting
+    if (dom.userPhone) {
+        // Format on input
+        dom.userPhone.addEventListener('input', function(e) {
+            const cursorPosition = e.target.selectionStart;
+            const oldValue = e.target.value;
+            const newValue = formatIndianPhoneNumber(oldValue);
+            
+            e.target.value = newValue;
+            
+            // Maintain cursor position
+            const diff = newValue.length - oldValue.length;
+            e.target.setSelectionRange(cursorPosition + diff, cursorPosition + diff);
+        });
+        
+        // Prevent deleting +91
+        dom.userPhone.addEventListener('keydown', function(e) {
+            const cursorPosition = e.target.selectionStart;
+            
+            // If trying to delete +91 or characters before it
+            if ((e.key === 'Backspace' || e.key === 'Delete') && cursorPosition <= 4) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Prevent typing non-digits after +91
+            if (cursorPosition > 3 && !/\d/.test(e.key) && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Ensure +91 stays when field loses focus
+        dom.userPhone.addEventListener('blur', function(e) {
+            if (e.target.value && !e.target.value.startsWith('+91')) {
+                e.target.value = formatIndianPhoneNumber(e.target.value);
             }
         });
     }
     
-    // Close modal when clicking outside
+    // Close modal on outside click
     if (dom.formModal) {
         dom.formModal.addEventListener('click', function(e) {
             if (e.target === dom.formModal) {
@@ -626,27 +667,6 @@ function setupEventListeners() {
         }
     });
     
-    // Phone number formatting
-    if (dom.userPhone) {
-        dom.userPhone.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            
-            if (value.length > 0) {
-                if (value.length <= 3) {
-                    value = '+' + value;
-                } else if (value.length <= 6) {
-                    value = '+' + value.slice(0, 3) + ' ' + value.slice(3);
-                } else if (value.length <= 10) {
-                    value = '+' + value.slice(0, 3) + ' ' + value.slice(3, 6) + ' ' + value.slice(6);
-                } else {
-                    value = '+' + value.slice(0, 3) + ' ' + value.slice(3, 6) + ' ' + value.slice(6, 10) + ' ' + value.slice(10, 14);
-                }
-            }
-            
-            e.target.value = value;
-        });
-    }
-    
     // Prevent form resubmission on refresh
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
@@ -654,24 +674,28 @@ function setupEventListeners() {
 }
 
 // ============================================
-// STARTUP LOG
+// STARTUP MESSAGE
 // ============================================
 console.log(`
-================================
-   BLUEPURE THEME SELECTOR
-================================
-Version: 2.0.0
-PWA: ${currentState.isPWAInstalled ? 'Installed ✓' : 'Not installed'}
-User: ${currentState.userData ? currentState.userData.name : 'New visitor'}
-EmailJS: ${EMAILJS_CONFIG.PUBLIC_KEY !== "YOUR_PUBLIC_KEY" ? 'Configured ✓' : 'Not configured'}
-================================
-`);
+%c===================================================
+       BLUEPURE - CUSTOM LABELS PRODUCER
+===================================================
+📍 Location: Dubey Colony Padawa, Khandwa MP India
+📧 Email: bluepureindia@gmail.com
+⭐ Rating: 9.3/10 Client Satisfaction
+📱 Phone Format: +91 XXXXX XXXXX
+🚀 PWA: ${currentState.isPWAInstalled ? 'Installed ✓' : 'Ready to Install'}
+💾 Storage: ${localStorage.getItem('bluepure_user') ? 'User data found' : 'New session'}
+===================================================
+`,
+'color: #3A8DFF; font-weight: bold;'
+);
 
-// Service Worker registration
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js').then(() => {
-            console.log('🔧 Service Worker registered');
-        });
-    });
-}
+// Auto-show PWA install prompt after 10 seconds
+setTimeout(() => {
+    if (!currentState.isPWAInstalled && dom.installButton && dom.installButton.style.display !== 'none') {
+        if (dom.pwaToast) {
+            dom.pwaToast.style.display = 'flex';
+        }
+    }
+}, 10000);
