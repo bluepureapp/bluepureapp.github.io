@@ -52,6 +52,34 @@
         <i class="fas fa-wifi-slash"></i> Offline Mode
     </div>
 
+    <!-- Image Preview Modal -->
+    <div class="image-preview-modal" id="imagePreviewModal">
+        <div class="preview-container">
+            <div class="preview-header">
+                <h3 id="previewTitle">Label Preview</h3>
+                <button class="preview-close" id="previewClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="preview-image" id="previewImage">
+                <!-- Preview image will be inserted here -->
+            </div>
+            <div class="preview-info">
+                <div class="preview-details">
+                    <h4 id="previewThemeName">Theme Name</h4>
+                    <p id="previewDescription">Theme description will appear here</p>
+                    <div class="preview-features" id="previewFeatures">
+                        <!-- Features will be inserted here -->
+                    </div>
+                </div>
+                <button class="btn-select-from-preview" id="selectFromPreview">
+                    <i class="fas fa-check-circle"></i>
+                    Select This Design
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="logo">
@@ -149,11 +177,12 @@
                 
                 <div class="form-group">
                     <label for="userPhone">Phone Number</label>
-                    <input type="tel" id="userPhone" placeholder="+91 12345 67890" required>
-                    <div class="input-icon">
-                        <i class="fas fa-phone"></i>
+                    <div class="phone-input-container">
+                        <span class="country-code">+91</span>
+                        <input type="tel" id="userPhone" placeholder="12345 67890" required>
                     </div>
                     <small>We'll contact you on this number</small>
+                    <div class="phone-format-hint">Format: +91 XXXXX XXXXX</div>
                 </div>
 
                 <div class="selected-theme-preview" id="selectedThemePreview">
