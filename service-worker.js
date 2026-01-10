@@ -1,5 +1,5 @@
 // BluePure PWA Service Worker
-const CACHE_NAME = 'bluepure-v1.0.2';
+const CACHE_NAME = 'bluepure-v1.0.3';
 const urlsToCache = [
   '/',
   '/index.html',
