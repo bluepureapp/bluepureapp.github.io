@@ -5,7 +5,7 @@
 // EmailJS Configuration - REPLACE WITH YOUR OWN
 const EMAILJS_CONFIG = {
     SERVICE_ID: "Bluepureapp",
-    TEMPLATE_ID: "template_6fln34h",
+    TEMPLATE_ID: "template_xtkxr3h",
     PUBLIC_KEY: "WwjEVbDtQjkRZqBWq",
     YOUR_EMAIL: "bluepureindia@gmail.com"
 };
