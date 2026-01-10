@@ -1,0 +1,28 @@
+{
+  "name": "BluePure",
+  "short_name": "BluePure",
+  "description": "Select your perfect design theme",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7FAFC",
+  "theme_color": "#3A8DFF",
+  "orientation": "any",
+  "categories": ["business", "productivity"],
+  
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "72x72 96x96 128x128 144x144 152x152 192x192 384x384 512x512 720x720 1080x1080",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "Browse Themes",
+      "url": "/",
+      "icons": [{ "src": "assets/icon.png", "sizes": "96x96" }]
+    }
+  ]
+}
