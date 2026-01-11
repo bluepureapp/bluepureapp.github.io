@@ -256,7 +256,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin-bottom: 2rem; /* Reduced margin */
+    margin-bottom: 2rem;
 }
 
 .theme-card {
@@ -386,12 +386,12 @@ body {
 }
 
 /* ============================================
-   THEME BUTTONS CONTAINER - MOVED TO BOTTOM
+   THEME BUTTONS CONTAINER - AT BOTTOM
    ============================================ */
 .theme-buttons {
     display: flex;
     gap: 0.8rem;
-    margin-top: auto; /* This pushes buttons to bottom */
+    margin-top: auto;
 }
 
 .preview-btn-small {
@@ -524,7 +524,6 @@ body {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* Updated for 3:4 aspect ratio */
 .preview-image {
     height: auto;
     background: linear-gradient(135deg, #667EEA, #764BA2);
@@ -534,7 +533,7 @@ body {
 
 .preview-image-content {
     width: 100%;
-    padding-top: 133.33%; /* 4:3 aspect ratio (3:4 = 133.33%) */
+    padding-top: 133.33%;
     position: relative;
     background: inherit;
 }
