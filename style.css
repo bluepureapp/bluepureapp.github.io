@@ -256,7 +256,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem; /* Reduced margin */
 }
 
 .theme-card {
@@ -267,6 +267,9 @@ body {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .theme-card:hover {
@@ -314,8 +317,28 @@ body {
     100% { transform: translateX(100%); }
 }
 
+.theme-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #234E52;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(58, 141, 255, 0.1);
+}
+
 .theme-content {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .theme-name {
@@ -340,6 +363,7 @@ body {
     color: #718096;
     margin-bottom: 1rem;
     line-height: 1.5;
+    flex-grow: 1;
 }
 
 .theme-features {
@@ -362,12 +386,12 @@ body {
 }
 
 /* ============================================
-   THEME BUTTONS CONTAINER
+   THEME BUTTONS CONTAINER - MOVED TO BOTTOM
    ============================================ */
 .theme-buttons {
     display: flex;
     gap: 0.8rem;
-    margin-top: auto;
+    margin-top: auto; /* This pushes buttons to bottom */
 }
 
 .preview-btn-small {
@@ -420,7 +444,7 @@ body {
 }
 
 /* ============================================
-   IMAGE PREVIEW MODAL
+   IMAGE PREVIEW MODAL - 3:4 ASPECT RATIO
    ============================================ */
 .image-preview-modal {
     position: fixed;
@@ -500,8 +524,9 @@ body {
     background: rgba(255, 255, 255, 0.3);
 }
 
+/* Updated for 3:4 aspect ratio */
 .preview-image {
-    height: 300px;
+    height: auto;
     background: linear-gradient(135deg, #667EEA, #764BA2);
     position: relative;
     overflow: hidden;
@@ -509,9 +534,20 @@ body {
 
 .preview-image-content {
     width: 100%;
-    height: 100%;
-    background: inherit;
+    padding-top: 133.33%; /* 4:3 aspect ratio (3:4 = 133.33%) */
     position: relative;
+    background: inherit;
+}
+
+.preview-image-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    animation: shimmer 2s infinite;
 }
 
 .preview-info {
@@ -567,67 +603,6 @@ body {
 .btn-select-from-preview:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
-}
-
-/* ============================================
-   BUSINESS INFO STATS
-   ============================================ */
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    padding: 3rem 2rem;
-    background: rgba(255,255,255,0.8);
-    border-radius: 25px;
-    max-width: 1000px;
-    margin: 0 auto 4rem;
-    backdrop-filter: blur(10px);
-    animation: fadeIn 1s ease 0.4s both;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
-
-.stat-card {
-    text-align: center;
-    padding: 1.5rem;
-    transition: transform 0.3s ease;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(58, 141, 255, 0.1);
-}
-
-.stat-card i {
-    font-size: 2.5rem;
-    color: #3A8DFF;
-    margin-bottom: 1rem;
-}
-
-.stat-card h3 {
-    font-size: 1.8rem;
-    color: #2D3748;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-}
-
-.stat-card p {
-    color: #718096;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.stat-card:nth-child(3) p {
-    font-size: 0.9rem;
-    line-height: 1.3;
-}
-
-.stat-card:nth-child(4) p {
-    color: #3A8DFF;
-    font-weight: 600;
-    font-size: 0.95rem;
 }
 
 /* ============================================
@@ -705,6 +680,196 @@ body {
     color: #4A5568;
     font-weight: 500;
     font-size: 1rem;
+}
+
+/* ============================================
+   BUSINESS INFO SECTION (MOVED TO BOTTOM)
+   ============================================ */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    padding: 3rem 2rem;
+    background: rgba(255,255,255,0.8);
+    border-radius: 25px;
+    max-width: 1000px;
+    margin: 4rem auto;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(58, 141, 255, 0.1);
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    color: #3A8DFF;
+    margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+    font-size: 1.8rem;
+    color: #2D3748;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.stat-card p {
+    color: #718096;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.stat-card:nth-child(3) p {
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+.stat-card:nth-child(4) p {
+    color: #3A8DFF;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   CHAT WIDGET SECTION
+   ============================================ */
+.chat-widget-section {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    padding: 0 2rem;
+}
+
+.chat-widget-card {
+    background: linear-gradient(135deg, #3A8DFF 0%, #2B6CB0 100%);
+    border-radius: 25px;
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    color: white;
+    box-shadow: 0 20px 40px rgba(58, 141, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.chat-widget-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" opacity="0.1"><path d="M0,50 Q250,0 500,50 T1000,50 V100 H0 Z" fill="white"/></svg>');
+    background-size: cover;
+    opacity: 0.1;
+}
+
+.chat-widget-icon {
+    flex-shrink: 0;
+}
+
+.chat-widget-icon i {
+    font-size: 5rem;
+    color: white;
+    filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
+}
+
+.chat-widget-content {
+    flex: 1;
+}
+
+.chat-widget-content h3 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.chat-widget-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+}
+
+.chat-features {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.chat-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+}
+
+.chat-feature i {
+    font-size: 1.2rem;
+}
+
+.chat-feature span {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Chat Widget Buttons */
+.mobile-chat-redirect,
+.desktop-chat-widget {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    color: #3A8DFF;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+}
+
+.mobile-chat-redirect:hover,
+.desktop-chat-widget:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    background: #F7FAFC;
+}
+
+.mobile-chat-redirect:active,
+.desktop-chat-widget:active {
+    transform: translateY(-2px);
+}
+
+/* Show/Hide based on device */
+.mobile-chat-redirect {
+    display: none;
+}
+
+.desktop-chat-widget {
+    display: block;
 }
 
 /* ============================================
@@ -1007,7 +1172,6 @@ input::-webkit-inner-spin-button {
 /* ============================================
    PWA TOAST
    ============================================ */
-
 .pwa-toast {
     border-left: 5px solid #48BB78;
     background: white;
@@ -1130,9 +1294,21 @@ input::-webkit-inner-spin-button {
     .about-content h2 {
         font-size: 2.2rem;
     }
+    
+    .chat-widget-content h3 {
+        font-size: 1.8rem;
+    }
 }
 
 @media (max-width: 768px) {
+    /* Show mobile chat button, hide desktop button */
+    .mobile-chat-redirect {
+        display: inline-flex;
+    }
+    .desktop-chat-widget {
+        display: none;
+    }
+    
     .header {
         flex-wrap: wrap;
         padding: 1rem;
@@ -1202,6 +1378,35 @@ input::-webkit-inner-spin-button {
         gap: 1rem;
     }
     
+    .chat-widget-section {
+        padding: 0 1.5rem;
+        margin: 3rem auto;
+    }
+    
+    .chat-widget-card {
+        flex-direction: column;
+        padding: 2rem;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .chat-widget-icon i {
+        font-size: 4rem;
+    }
+    
+    .chat-widget-content h3 {
+        font-size: 1.8rem;
+    }
+    
+    .chat-features {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .chat-feature {
+        padding: 0.6rem 1.2rem;
+    }
+    
     .form-buttons {
         flex-direction: column;
     }
@@ -1255,6 +1460,23 @@ input::-webkit-inner-spin-button {
         font-size: 1.6rem;
     }
     
+    .chat-widget-card {
+        padding: 1.5rem;
+    }
+    
+    .chat-widget-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .chat-widget-content p {
+        font-size: 1rem;
+    }
+    
+    .chat-features {
+        flex-direction: column;
+        align-items: center;
+    }
+    
     .modal {
         padding: 1.5rem;
         width: 95%;
@@ -1268,8 +1490,8 @@ input::-webkit-inner-spin-button {
         padding: 1.5rem 1rem;
     }
     
-    .preview-image {
-        height: 250px;
+    .preview-container {
+        max-width: 95%;
     }
 }
 
@@ -1302,4 +1524,3 @@ input::-webkit-inner-spin-button {
         padding-top: max(1.5rem, env(safe-area-inset-top));
     }
 }
-
