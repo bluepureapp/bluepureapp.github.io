@@ -2,7 +2,7 @@
 
 ![BluePure Logo](assets/icon.png)
 
-**Live Website:** https://bluepure.in
+**Live Website:** https://bluepureapp.github.in
 
 BluePure is India's premier custom labels manufacturer, providing high-quality label printing and packaging solutions.
 
