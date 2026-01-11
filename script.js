@@ -14,8 +14,8 @@ const THEMES = [
         id: "premium-gold",
         name: "Premium Gold Labels",
         tag: "Premium",
-        description: "Gold foil labels with elegant design for premium products and high-end packaging.",
-        features: ["Gold foil finishing", "Water-resistant", "Premium adhesive", "Custom shapes"],
+        description: "Gold foil labels with elegant design.",
+        features: ["Gold foil finishing", "Water-resistant", "Premium adhesive"],
         color: "#D4AF37",
         previewColor: "linear-gradient(135deg, #D4AF37, #B8860B)"
     },
@@ -23,8 +23,8 @@ const THEMES = [
         id: "eco-friendly",
         name: "Eco-Friendly Labels",
         tag: "Premium",
-        description: "Biodegradable labels made from recycled materials for environmentally conscious brands.",
-        features: ["Recycled materials", "Biodegradable", "Eco-friendly ink", "Natural adhesive"],
+        description: "Biodegradable labels from recycled materials.",
+        features: ["Recycled materials", "Biodegradable", "Eco-friendly ink"],
         color: "#48BB78",
         previewColor: "linear-gradient(135deg, #48BB78, #38A169)"
     },
@@ -32,8 +32,8 @@ const THEMES = [
         id: "transparent-clear",
         name: "Transparent Clear Labels",
         tag: "Premium",
-        description: "Crystal clear labels that blend seamlessly with any product packaging.",
-        features: ["100% transparent", "UV resistant", "Scratch-proof", "No background"],
+        description: "Crystal clear labels for any packaging.",
+        features: ["100% transparent", "UV resistant", "Scratch-proof"],
         color: "#4299E1",
         previewColor: "linear-gradient(135deg, #4299E1, #3182CE)"
     },
@@ -41,8 +41,8 @@ const THEMES = [
         id: "metallic-silver",
         name: "Metallic Silver Labels",
         tag: "Premium",
-        description: "Silver metallic labels for a sleek, premium look on industrial and tech products.",
-        features: ["Metallic finish", "Industrial grade", "Weather resistant", "Long-lasting"],
+        description: "Silver metallic for tech products.",
+        features: ["Metallic finish", "Industrial grade", "Weather resistant"],
         color: "#A0AEC0",
         previewColor: "linear-gradient(135deg, #A0AEC0, #718096)"
     },
@@ -50,8 +50,8 @@ const THEMES = [
         id: "colorful-print",
         name: "Colorful Print Labels",
         tag: "Premium",
-        description: "Full-color printed labels with vibrant graphics for food, beverage, and retail products.",
-        features: ["Full-color printing", "High-resolution", "Food-safe", "Custom artwork"],
+        description: "Full-color printed vibrant graphics.",
+        features: ["Full-color printing", "High-resolution", "Food-safe"],
         color: "#ED8936",
         previewColor: "linear-gradient(135deg, #ED8936, #9F7AEA, #4299E1)"
     },
@@ -59,8 +59,8 @@ const THEMES = [
         id: "waterproof-industrial",
         name: "Waterproof Industrial Labels",
         tag: "Premium",
-        description: "Heavy-duty waterproof labels designed for industrial use and outdoor applications.",
-        features: ["100% waterproof", "Chemical resistant", "High temperature", "Extra adhesive"],
+        description: "Heavy-duty waterproof for outdoor use.",
+        features: ["100% waterproof", "Chemical resistant", "High temperature"],
         color: "#2D3748",
         previewColor: "linear-gradient(135deg, #2D3748, #1A202C)"
     }
@@ -135,7 +135,7 @@ function initializeApp() {
 }
 
 // ============================================
-// CHAT WIDGET FUNCTIONS - WORKING VERSION
+// CHAT WIDGET FUNCTIONS - SIMPLIFIED
 // ============================================
 function addChatWidget() {
     const chatWidgetHTML = `
@@ -147,7 +147,7 @@ function addChatWidget() {
                 </div>
                 <div class="chat-widget-content">
                     <h3>Chat With Us Instantly</h3>
-                    <p>Have questions about our labels? Need custom designs? Our team is ready to help you in real-time.</p>
+                    <p>Have questions about our labels? Our team is ready to help you.</p>
                     <div class="chat-features">
                         <div class="chat-feature">
                             <i class="fas fa-bolt"></i>
@@ -163,14 +163,8 @@ function addChatWidget() {
                         </div>
                     </div>
                     
-                    <!-- Mobile Chat Button (redirects to mobile widget) -->
-                    <a href="https://bluepureapp.github.io/#mobile-widget" target="_blank" class="chat-widget-button mobile-chat-redirect">
-                        <i class="fas fa-comment-dots"></i>
-                        Start Chat Now
-                    </a>
-                    
-                    <!-- Desktop Chat Button (opens Tidio chat) -->
-                    <button class="chat-widget-button desktop-chat-widget" id="openTidioChat">
+                    <!-- Single Chat Button for all devices -->
+                    <button class="chat-widget-button" id="openTidioChat">
                         <i class="fas fa-comment-dots"></i>
                         Start Chat Now
                     </button>
@@ -188,19 +182,15 @@ function addChatWidget() {
 
 // Main function to open Tidio chat
 function openTidioChat() {
-    console.log('🔵 Opening Tidio chat...');
+    console.log('Opening Tidio chat...');
     
-    // Method 1: Direct Tidio API (most reliable if available)
+    // Method 1: Direct Tidio API
     if (window.tidioChatApi) {
-        console.log('✅ Using window.tidioChatApi.open()');
         window.tidioChatApi.open();
         return true;
     }
     
     // Method 2: Look for Tidio button and click it
-    console.log('🔍 Looking for Tidio button...');
-    
-    // Try multiple selectors
     const selectors = [
         '#button button',
         '.tidio-chat',
@@ -212,74 +202,18 @@ function openTidioChat() {
     for (const selector of selectors) {
         const element = document.querySelector(selector);
         if (element) {
-            console.log(`✅ Found Tidio element with selector: ${selector}`);
             element.click();
-            
-            // Also trigger mouse events
-            setTimeout(() => {
-                element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-                element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
-                element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-            }, 100);
-            
             return true;
         }
     }
     
-    // Method 3: Check if Tidio button is in iframe
-    const iframes = document.querySelectorAll('iframe');
-    for (const iframe of iframes) {
-        try {
-            if (iframe.src && iframe.src.includes('tidio')) {
-                console.log('✅ Found Tidio iframe');
-                // Try to send message to iframe
-                iframe.contentWindow.postMessage({ 
-                    action: 'openChat',
-                    type: 'tidio-chat-expanded' 
-                }, '*');
-                return true;
-            }
-        } catch (e) {
-            console.log('Cannot access iframe:', e);
-        }
-    }
-    
-    // Method 4: Try to find button by its common position (bottom-right)
-    console.log('📍 Trying to find button by position...');
-    findAndClickTidioByPosition();
-    
-    // Method 5: Show instructions if all else fails
-    setTimeout(() => {
-        showChatInstructions();
-    }, 500);
-    
+    // Method 3: Show instructions
+    showChatInstructions();
     return false;
-}
-
-// Try to find Tidio button by its common position
-function findAndClickTidioByPosition() {
-    const positions = [
-        { x: window.innerWidth - 80, y: window.innerHeight - 80 },
-        { x: window.innerWidth - 100, y: window.innerHeight - 100 },
-        { x: window.innerWidth - 60, y: window.innerHeight - 60 }
-    ];
-    
-    positions.forEach(pos => {
-        const element = document.elementFromPoint(pos.x, pos.y);
-        if (element && (element.tagName === 'BUTTON' || element.tagName === 'DIV' || element.tagName === 'SPAN')) {
-            console.log('✅ Found element at position:', element);
-            element.click();
-            
-            // Try to find nested button
-            const button = element.querySelector('button') || element;
-            button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        }
-    });
 }
 
 // Show chat instructions modal
 function showChatInstructions() {
-    console.log('📢 Showing chat instructions');
     if (dom.chatInstructionsModal) {
         dom.chatInstructionsModal.classList.add('active');
     }
@@ -291,28 +225,12 @@ function setupChatButton() {
     if (chatBtn) {
         chatBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('🎯 Chat button clicked');
             
-            // Try multiple methods with delays
-            let attempts = 0;
-            const maxAttempts = 3;
-            
-            const tryOpenChat = setInterval(() => {
-                attempts++;
-                console.log(`Attempt ${attempts} to open chat...`);
-                
-                if (openTidioChat()) {
-                    console.log('✅ Chat opened successfully');
-                    clearInterval(tryOpenChat);
-                    return;
-                }
-                
-                if (attempts >= maxAttempts) {
-                    console.log('❌ Could not open chat after multiple attempts');
-                    clearInterval(tryOpenChat);
-                    showChatInstructions();
-                }
-            }, 300);
+            // Try to open chat
+            if (!openTidioChat()) {
+                // If not opened, show instructions
+                setTimeout(showChatInstructions, 300);
+            }
         });
     }
 }
@@ -345,11 +263,10 @@ function createThemeCard(theme) {
         <div class="theme-content">
             <div class="theme-name">
                 <span>${theme.name}</span>
-                <span class="theme-tag">${theme.tag}</span>
             </div>
             <p class="theme-desc">${theme.description}</p>
             <ul class="theme-features">
-                ${theme.features.map(feature => `
+                ${theme.features.slice(0, 3).map(feature => `
                     <li><i class="fas fa-check"></i> ${feature}</li>
                 `).join('')}
             </ul>
@@ -360,7 +277,7 @@ function createThemeCard(theme) {
                 </button>
                 <button class="btn-choose" data-theme-id="${theme.id}">
                     <i class="fas fa-tags"></i>
-                    Select This Label
+                    Select
                 </button>
             </div>
         </div>
@@ -564,9 +481,9 @@ function handleThemeSelection(theme, fromPreview) {
         sendNotification(userData, theme);
         
         if (fromPreview) {
-            showToast(`Selected ${theme.name} from preview! We'll contact you soon.`);
+            showToast(`Selected ${theme.name} from preview!`);
         } else {
-            showToast(`Updated to ${theme.name}! We'll contact you soon.`);
+            showToast(`Updated to ${theme.name}!`);
         }
         
     } else {
@@ -747,9 +664,9 @@ function setupFormEventListeners() {
                 
                 // Show success message
                 if (notificationSent) {
-                    showToast(`Thank you ${name}! We'll contact you soon for your ${currentState.selectedTheme.name} labels.`);
+                    showToast(`Thank you ${name}! We'll contact you soon.`);
                 } else {
-                    showToast(`Request saved! We'll contact you at ${phone} for ${currentState.selectedTheme.name} labels.`);
+                    showToast(`Request saved! We'll contact you at ${phone}.`);
                 }
                 
                 // Mobile vibration feedback
@@ -759,7 +676,7 @@ function setupFormEventListeners() {
                 
             } catch (error) {
                 console.error('Submission error:', error);
-                showToast('Something went wrong. Please try again or contact us directly.', 5000);
+                showToast('Something went wrong. Please try again.', 5000);
                 
                 // Fallback: Save locally
                 saveLocalNotification(userData, currentState.selectedTheme);
@@ -885,12 +802,12 @@ function hideOfflineIndicator() {
 
 window.addEventListener('online', () => {
     hideOfflineIndicator();
-    showToast('Back online! Submitting your request...', 2000);
+    showToast('Back online!', 2000);
 });
 
 window.addEventListener('offline', () => {
     showOfflineIndicator();
-    showToast('Offline mode - Working with saved data', 3000);
+    showToast('Offline mode', 3000);
 });
 
 // ============================================
@@ -909,6 +826,3 @@ console.log(`
 `,
 'color: #3A8DFF; font-weight: bold;'
 );
-
-console.log('🔧 Tidio Chat Integration: READY');
-console.log('💡 Tip: Open browser console (F12) to see debug messages');
