@@ -2,63 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BluePure - The Best Custom Labels Producers</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="google-site-verification" content="qRU2hfY_hID6VOk91AxOPVwvoGqrpQskUTWmxpwszxE" />
-    <title>RelayTalk | Instant Messaging for Friends</title>
-    <meta name="description" content="RelayTalk - Connect with friends instantly using search, real-time notifications, and secure messaging. The fastest way to stay in touch.">
-    <meta name="keywords" content="RelayTalk, messaging app, instant chat, PWA messenger, connect with friends">
-    <link rel="canonical" href="https://relaytalk.github.io/">
-
-    <!-- Open Graph Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://relaytalk.github.io/">
-    <meta property="og:title" content="RelayTalk | Instant Messaging">
-    <meta property="og:description" content="Message friends instantly with RelayTalk. Fast, secure, and works offline.">
-    <meta property="og:image" content="https://relaytalk.github.io/relay.png">
-
-    <!-- PWA Configuration -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- FAVICON FIXES (CRITICAL) -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" href="/relay.png">
-    <link rel="apple-touch-icon" href="/relay.png">
-    
-    <!-- Theme and PWA Meta -->
-    <meta name="theme-color" content="#0a0a1a">
-    <meta name="mobile-web-app-capable" content="yes">
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#3A8DFF">
+    <meta name="description" content="BluePure - The Best Custom Labels Producers. Select your perfect design theme for custom labels, packaging, and branding solutions.">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RelayTalk">
+    <meta name="apple-mobile-web-app-title" content="BluePure">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="BluePure">
     
-    <!-- Stylesheets -->
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="shortcut icon" href="assets/icon.png">
+    <link rel="apple-touch-icon" href="assets/icon.png">
+    
+    <!-- Windows -->
+    <meta name="msapplication-TileImage" content="assets/icon.png">
+    <meta name="msapplication-TileColor" content="#3A8DFF">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="opening.css">
-
-    <!-- Rest of your scripts remain the same -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('✅ Service Worker registered:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('❌ Service Worker registration failed:', error);
-                    });
-            });
-        }
-
-        // ... rest of your existing JavaScript ...
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Tidio Chat -->
+    <script src="//code.tidio.co/bo8hrixbk7kaqkj05ycwa3yp7f09fhwx.js" async></script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="assets/icon.png" as="image">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
     <style>
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .standalone-mode .bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
+        /* Mobile detection for chat widget */
+        .mobile-chat-redirect {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-chat-redirect {
+                display: block;
+            }
+            .desktop-chat-widget {
+                display: none;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-chat-redirect {
+                display: none;
+            }
+            .desktop-chat-widget {
+                display: block;
+            }
+        }
     </style>
 </head>
-
 <body>
     <!-- Background Animation -->
     <div class="bg-animation">
