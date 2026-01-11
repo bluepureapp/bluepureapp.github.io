@@ -11,7 +11,7 @@ const EMAILJS_CONFIG = {
 
 const THEMES = [
     {
-        id: "premium-gold",
+        id: "theme1",
         name: "Premium Gold Labels",
         tag: "Premium",
         description: "Gold foil labels with elegant design.",
@@ -21,7 +21,7 @@ const THEMES = [
         image: "theme1.jpg"
     },
     {
-        id: "eco-friendly",
+        id: "theme2",
         name: "Eco-Friendly Labels",
         tag: "Premium",
         description: "Biodegradable labels from recycled materials.",
@@ -31,7 +31,7 @@ const THEMES = [
         image: "theme2.jpg"
     },
     {
-        id: "transparent-clear",
+        id: "theme3",
         name: "Transparent Clear Labels",
         tag: "Premium",
         description: "Crystal clear labels for any packaging.",
@@ -41,7 +41,7 @@ const THEMES = [
         image: "theme3.jpg"
     },
     {
-        id: "metallic-silver",
+        id: "theme4",
         name: "Metallic Silver Labels",
         tag: "Premium",
         description: "Silver metallic for tech products.",
@@ -51,7 +51,7 @@ const THEMES = [
         image: "theme4.jpg"
     },
     {
-        id: "colorful-print",
+        id: "theme5",
         name: "Colorful Print Labels",
         tag: "Premium",
         description: "Full-color printed vibrant graphics.",
@@ -61,7 +61,7 @@ const THEMES = [
         image: "theme5.jpg"
     },
     {
-        id: "waterproof-industrial",
+        id: "theme6",
         name: "Waterproof Industrial Labels",
         tag: "Premium",
         description: "Heavy-duty waterproof for outdoor use.",
@@ -80,7 +80,7 @@ let currentState = {
     userData: null,
     isFormVisible: false,
     isPreviewOpen: false,
-    availableImages: []
+    availableImages: {}
 };
 
 // ============================================
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
-async function initializeApp() {
+function initializeApp() {
     // Initialize EmailJS with your credentials
     try {
         emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
@@ -129,72 +129,60 @@ async function initializeApp() {
         console.warn('⚠️ EmailJS initialization failed:', error);
     }
     
-    // Check for available images first (fast loading)
-    await checkAvailableImages();
-    
     loadUserData();
-    renderThemes();
     setupEventListeners();
     updateNetworkStatus();
     
     // Add Chat With Us widget
     addChatWidget();
     
+    // Check images and render themes
+    checkAvailableImages();
+    
     // Setup chat button after a delay to ensure Tidio is loaded
     setTimeout(setupChatButton, 2000);
 }
 
 // ============================================
-// IMAGE OPTIMIZATION - FAST LOADING
+// IMAGE OPTIMIZATION - SIMPLIFIED VERSION
 // ============================================
-async function checkAvailableImages() {
+function checkAvailableImages() {
     console.log('🔍 Checking for available theme images...');
     
-    // Create array of image checks
-    const imageChecks = THEMES.map(async (theme, index) => {
-        const imagePath = `assets/${theme.image}`;
-        
-        try {
-            // Try to fetch the image (very fast check)
-            const response = await fetch(imagePath, { method: 'HEAD' });
-            if (response.ok) {
-                console.log(`✅ Found image: ${theme.image}`);
-                return {
-                    themeId: theme.id,
-                    imageUrl: imagePath,
-                    available: true
-                };
-            }
-        } catch (error) {
-            // Image not found or error
-            console.log(`❌ Image not found: ${theme.image}, using gradient`);
-        }
-        
-        return {
-            themeId: theme.id,
-            imageUrl: null,
-            available: false
-        };
+    // Start with empty available images
+    currentState.availableImages = {};
+    
+    // Create image elements to test loading
+    const imagesToTest = THEMES.map(theme => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = function() {
+                console.log(`✅ Image available: ${theme.image}`);
+                currentState.availableImages[theme.id] = true;
+                resolve(true);
+            };
+            img.onerror = function() {
+                console.log(`❌ Image not found: ${theme.image}, using gradient`);
+                currentState.availableImages[theme.id] = false;
+                resolve(false);
+            };
+            img.src = `assets/${theme.image}`;
+        });
     });
     
-    // Wait for all checks to complete
-    const results = await Promise.allSettled(imageChecks);
-    
-    // Store available images
-    currentState.availableImages = results
-        .filter(result => result.status === 'fulfilled' && result.value.available)
-        .map(result => result.value);
-    
-    console.log(`📊 ${currentState.availableImages.length} images available out of ${THEMES.length}`);
+    // Wait for all image checks to complete
+    Promise.allSettled(imagesToTest).then(() => {
+        console.log(`📊 Image check complete. Available: ${Object.values(currentState.availableImages).filter(v => v).length}/${THEMES.length}`);
+        // Render themes after checking images
+        renderThemes();
+    });
 }
 
 // Get theme image URL (returns gradient if image not available)
 function getThemeImageUrl(theme) {
-    const availableImage = currentState.availableImages.find(img => img.themeId === theme.id);
-    
-    if (availableImage && availableImage.available) {
-        // Return image with fast loading technique
-        return `url("${availableImage.imageUrl}")`;
+    // If image is available, return image URL
+    if (currentState.availableImages[theme.id]) {
+        return `url('assets/${theme.image}')`;
     }
     
     // Fallback to gradient
@@ -202,7 +190,7 @@ function getThemeImageUrl(theme) {
 }
 
 // ============================================
-// CHAT WIDGET FUNCTIONS - SIMPLIFIED
+// CHAT WIDGET FUNCTIONS
 // ============================================
 function addChatWidget() {
     const chatWidgetHTML = `
@@ -303,33 +291,35 @@ function setupChatButton() {
 }
 
 // ============================================
-// THEME RENDERING WITH IMAGE OPTIMIZATION
+// THEME RENDERING WITH IMAGE SUPPORT
 // ============================================
 function renderThemes() {
     if (!dom.themeGrid) return;
     
     dom.themeGrid.innerHTML = '';
     
-    THEMES.forEach((theme, index) => {
-        const themeCard = createThemeCard(theme, index);
+    THEMES.forEach(theme => {
+        const themeCard = createThemeCard(theme);
         dom.themeGrid.appendChild(themeCard);
     });
 }
 
-function createThemeCard(theme, index) {
+function createThemeCard(theme) {
     const card = document.createElement('div');
     card.className = 'theme-card no-select';
     card.setAttribute('data-theme-id', theme.id);
     
-    // Use image if available, otherwise use gradient
-    const backgroundStyle = getThemeImageUrl(theme);
-    const isImage = backgroundStyle.includes('url');
-    
-    // Add loading class for images
-    const imageClass = isImage ? 'theme-image-with-bg' : '';
+    // Check if image is available
+    const hasImage = currentState.availableImages[theme.id];
+    const backgroundStyle = hasImage ? 
+        `url('assets/${theme.image}')` : 
+        theme.color;
     
     card.innerHTML = `
-        <div class="theme-image ${imageClass}" style="background: ${backgroundStyle}; background-size: cover; background-position: center;">
+        <div class="theme-image" style="
+            background: ${backgroundStyle};
+            ${hasImage ? 'background-size: cover; background-position: center;' : ''}
+        ">
             <div class="theme-badge">${theme.tag}</div>
         </div>
         <div class="theme-content">
@@ -338,7 +328,7 @@ function createThemeCard(theme, index) {
             </div>
             <p class="theme-desc">${theme.description}</p>
             <ul class="theme-features">
-                ${theme.features.slice(0, 3).map(feature => `
+                ${theme.features.map(feature => `
                     <li><i class="fas fa-check"></i> ${feature}</li>
                 `).join('')}
             </ul>
@@ -355,28 +345,11 @@ function createThemeCard(theme, index) {
         </div>
     `;
     
-    // Preload image if available
-    if (isImage) {
-        preloadImage(theme.image, index);
-    }
-    
     return card;
 }
 
-// Preload images for faster viewing
-function preloadImage(imageName, index) {
-    const img = new Image();
-    img.src = `assets/${imageName}`;
-    img.onload = function() {
-        console.log(`✅ Preloaded: ${imageName}`);
-    };
-    img.onerror = function() {
-        console.log(`❌ Failed to preload: ${imageName}`);
-    };
-}
-
 // ============================================
-// PREVIEW MODAL FUNCTIONS WITH IMAGE SUPPORT
+// PREVIEW MODAL FUNCTIONS
 // ============================================
 function openImagePreview(theme) {
     if (!theme || !dom.imagePreviewModal) return;
@@ -389,20 +362,19 @@ function openImagePreview(theme) {
     dom.previewThemeName.textContent = theme.name;
     dom.previewDescription.textContent = theme.description;
     
-    // Check if image is available for preview
-    const backgroundStyle = getThemeImageUrl(theme);
-    const isImage = backgroundStyle.includes('url');
+    // Check if image is available
+    const hasImage = currentState.availableImages[theme.id];
     
-    // Set preview image with 3:4 aspect ratio
+    // Set preview image
     dom.previewImage.innerHTML = `
         <div class="preview-image-content" style="
-            background: ${isImage ? backgroundStyle : theme.previewColor};
-            ${isImage ? 'background-size: cover; background-position: center;' : ''}
+            background: ${hasImage ? `url('assets/${theme.image}')` : theme.previewColor};
+            ${hasImage ? 'background-size: cover; background-position: center;' : ''}
             width: 100%;
             padding-top: 133.33%;
             position: relative;
         ">
-            ${!isImage ? `
+            ${!hasImage ? `
             <div style="
                 position: absolute;
                 top: 0;
@@ -917,7 +889,7 @@ console.log(`
 📧 Email: bluepureindia@gmail.com
 📞 Phone: +91 6261491292
 ⭐ Rating: 9.3/10 Client Satisfaction
-🚀 Version: 2.2.0 (Image Optimized)
+🚀 Version: 2.3.0 (Simplified Image Loading)
 ===================================================
 `,
 'color: #3A8DFF; font-weight: bold;'
