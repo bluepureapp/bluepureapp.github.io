@@ -700,11 +700,10 @@ function saveUserData(userData) {
         location: "India"
     };
     
-    localStorage.setItem('bluepure_user', JSON.stringify(dataToSave);
+    localStorage.setItem('bluepure_user', JSON.stringify(dataToSave));
     currentState.userData = dataToSave;
     console.log('💾 User data saved');
 }
-
 // ============================================
 // FORM EVENT LISTENERS
 // ============================================
