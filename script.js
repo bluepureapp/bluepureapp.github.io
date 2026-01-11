@@ -17,7 +17,8 @@ const THEMES = [
         description: "Gold foil labels with elegant design.",
         features: ["Gold foil finishing", "Water-resistant", "Premium adhesive"],
         color: "#D4AF37",
-        previewColor: "linear-gradient(135deg, #D4AF37, #B8860B)"
+        previewColor: "linear-gradient(135deg, #D4AF37, #B8860B)",
+        image: "theme1.jpg"
     },
     {
         id: "eco-friendly",
@@ -26,7 +27,8 @@ const THEMES = [
         description: "Biodegradable labels from recycled materials.",
         features: ["Recycled materials", "Biodegradable", "Eco-friendly ink"],
         color: "#48BB78",
-        previewColor: "linear-gradient(135deg, #48BB78, #38A169)"
+        previewColor: "linear-gradient(135deg, #48BB78, #38A169)",
+        image: "theme2.jpg"
     },
     {
         id: "transparent-clear",
@@ -35,7 +37,8 @@ const THEMES = [
         description: "Crystal clear labels for any packaging.",
         features: ["100% transparent", "UV resistant", "Scratch-proof"],
         color: "#4299E1",
-        previewColor: "linear-gradient(135deg, #4299E1, #3182CE)"
+        previewColor: "linear-gradient(135deg, #4299E1, #3182CE)",
+        image: "theme3.jpg"
     },
     {
         id: "metallic-silver",
@@ -44,7 +47,8 @@ const THEMES = [
         description: "Silver metallic for tech products.",
         features: ["Metallic finish", "Industrial grade", "Weather resistant"],
         color: "#A0AEC0",
-        previewColor: "linear-gradient(135deg, #A0AEC0, #718096)"
+        previewColor: "linear-gradient(135deg, #A0AEC0, #718096)",
+        image: "theme4.jpg"
     },
     {
         id: "colorful-print",
@@ -53,7 +57,8 @@ const THEMES = [
         description: "Full-color printed vibrant graphics.",
         features: ["Full-color printing", "High-resolution", "Food-safe"],
         color: "#ED8936",
-        previewColor: "linear-gradient(135deg, #ED8936, #9F7AEA, #4299E1)"
+        previewColor: "linear-gradient(135deg, #ED8936, #9F7AEA, #4299E1)",
+        image: "theme5.jpg"
     },
     {
         id: "waterproof-industrial",
@@ -62,7 +67,8 @@ const THEMES = [
         description: "Heavy-duty waterproof for outdoor use.",
         features: ["100% waterproof", "Chemical resistant", "High temperature"],
         color: "#2D3748",
-        previewColor: "linear-gradient(135deg, #2D3748, #1A202C)"
+        previewColor: "linear-gradient(135deg, #2D3748, #1A202C)",
+        image: "theme6.jpg"
     }
 ];
 
@@ -73,7 +79,8 @@ let currentState = {
     selectedTheme: null,
     userData: null,
     isFormVisible: false,
-    isPreviewOpen: false
+    isPreviewOpen: false,
+    availableImages: []
 };
 
 // ============================================
@@ -113,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
-function initializeApp() {
+async function initializeApp() {
     // Initialize EmailJS with your credentials
     try {
         emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
@@ -121,6 +128,9 @@ function initializeApp() {
     } catch (error) {
         console.warn('⚠️ EmailJS initialization failed:', error);
     }
+    
+    // Check for available images first (fast loading)
+    await checkAvailableImages();
     
     loadUserData();
     renderThemes();
@@ -132,6 +142,63 @@ function initializeApp() {
     
     // Setup chat button after a delay to ensure Tidio is loaded
     setTimeout(setupChatButton, 2000);
+}
+
+// ============================================
+// IMAGE OPTIMIZATION - FAST LOADING
+// ============================================
+async function checkAvailableImages() {
+    console.log('🔍 Checking for available theme images...');
+    
+    // Create array of image checks
+    const imageChecks = THEMES.map(async (theme, index) => {
+        const imagePath = `assets/${theme.image}`;
+        
+        try {
+            // Try to fetch the image (very fast check)
+            const response = await fetch(imagePath, { method: 'HEAD' });
+            if (response.ok) {
+                console.log(`✅ Found image: ${theme.image}`);
+                return {
+                    themeId: theme.id,
+                    imageUrl: imagePath,
+                    available: true
+                };
+            }
+        } catch (error) {
+            // Image not found or error
+            console.log(`❌ Image not found: ${theme.image}, using gradient`);
+        }
+        
+        return {
+            themeId: theme.id,
+            imageUrl: null,
+            available: false
+        };
+    });
+    
+    // Wait for all checks to complete
+    const results = await Promise.allSettled(imageChecks);
+    
+    // Store available images
+    currentState.availableImages = results
+        .filter(result => result.status === 'fulfilled' && result.value.available)
+        .map(result => result.value);
+    
+    console.log(`📊 ${currentState.availableImages.length} images available out of ${THEMES.length}`);
+}
+
+// Get theme image URL (returns gradient if image not available)
+function getThemeImageUrl(theme) {
+    const availableImage = currentState.availableImages.find(img => img.themeId === theme.id);
+    
+    if (availableImage && availableImage.available) {
+        // Return image with fast loading technique
+        return `url("${availableImage.imageUrl}")`;
+    }
+    
+    // Fallback to gradient
+    return theme.color;
 }
 
 // ============================================
@@ -236,28 +303,33 @@ function setupChatButton() {
 }
 
 // ============================================
-// THEME RENDERING
+// THEME RENDERING WITH IMAGE OPTIMIZATION
 // ============================================
 function renderThemes() {
     if (!dom.themeGrid) return;
     
     dom.themeGrid.innerHTML = '';
     
-    THEMES.forEach(theme => {
-        const themeCard = createThemeCard(theme);
+    THEMES.forEach((theme, index) => {
+        const themeCard = createThemeCard(theme, index);
         dom.themeGrid.appendChild(themeCard);
     });
 }
 
-function createThemeCard(theme) {
+function createThemeCard(theme, index) {
     const card = document.createElement('div');
     card.className = 'theme-card no-select';
     card.setAttribute('data-theme-id', theme.id);
     
-    const patternStyle = `background: ${theme.color};`;
+    // Use image if available, otherwise use gradient
+    const backgroundStyle = getThemeImageUrl(theme);
+    const isImage = backgroundStyle.includes('url');
+    
+    // Add loading class for images
+    const imageClass = isImage ? 'theme-image-with-bg' : '';
     
     card.innerHTML = `
-        <div class="theme-image" style="${patternStyle}">
+        <div class="theme-image ${imageClass}" style="background: ${backgroundStyle}; background-size: cover; background-position: center;">
             <div class="theme-badge">${theme.tag}</div>
         </div>
         <div class="theme-content">
@@ -283,11 +355,28 @@ function createThemeCard(theme) {
         </div>
     `;
     
+    // Preload image if available
+    if (isImage) {
+        preloadImage(theme.image, index);
+    }
+    
     return card;
 }
 
+// Preload images for faster viewing
+function preloadImage(imageName, index) {
+    const img = new Image();
+    img.src = `assets/${imageName}`;
+    img.onload = function() {
+        console.log(`✅ Preloaded: ${imageName}`);
+    };
+    img.onerror = function() {
+        console.log(`❌ Failed to preload: ${imageName}`);
+    };
+}
+
 // ============================================
-// PREVIEW MODAL FUNCTIONS
+// PREVIEW MODAL FUNCTIONS WITH IMAGE SUPPORT
 // ============================================
 function openImagePreview(theme) {
     if (!theme || !dom.imagePreviewModal) return;
@@ -300,14 +389,20 @@ function openImagePreview(theme) {
     dom.previewThemeName.textContent = theme.name;
     dom.previewDescription.textContent = theme.description;
     
+    // Check if image is available for preview
+    const backgroundStyle = getThemeImageUrl(theme);
+    const isImage = backgroundStyle.includes('url');
+    
     // Set preview image with 3:4 aspect ratio
     dom.previewImage.innerHTML = `
         <div class="preview-image-content" style="
-            background: ${theme.previewColor};
+            background: ${isImage ? backgroundStyle : theme.previewColor};
+            ${isImage ? 'background-size: cover; background-position: center;' : ''}
             width: 100%;
             padding-top: 133.33%;
             position: relative;
         ">
+            ${!isImage ? `
             <div style="
                 position: absolute;
                 top: 0;
@@ -324,6 +419,7 @@ function openImagePreview(theme) {
             ">
                 ${theme.name}
             </div>
+            ` : ''}
         </div>
     `;
     
@@ -821,7 +917,7 @@ console.log(`
 📧 Email: bluepureindia@gmail.com
 📞 Phone: +91 6261491292
 ⭐ Rating: 9.3/10 Client Satisfaction
-🚀 Version: 2.1.0
+🚀 Version: 2.2.0 (Image Optimized)
 ===================================================
 `,
 'color: #3A8DFF; font-weight: bold;'
