@@ -112,19 +112,242 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
-    if (EMAILJS_CONFIG.PUBLIC_KEY && EMAILJS_CONFIG.PUBLIC_KEY !== "user_YOUR_PUBLIC_KEY_HERE") {
-        try {
-            emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-            console.log('✅ EmailJS initialized');
-        } catch (error) {
-            console.warn('⚠️ EmailJS initialization failed:', error);
-        }
+    // Initialize EmailJS with your credentials
+    try {
+        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+        console.log('✅ EmailJS initialized with your credentials');
+    } catch (error) {
+        console.warn('⚠️ EmailJS initialization failed:', error);
     }
     
     loadUserData();
     renderThemes();
     setupEventListeners();
     updateNetworkStatus();
+    
+    // Add Chat With Us widget (like Browse Themes)
+    addChatWidget();
+}
+
+// ============================================
+// CHAT WITH US WIDGET (LIKE BROWSE THEMES)
+// ============================================
+function addChatWidget() {
+    // Create chat widget HTML - styled like theme cards
+    const chatWidgetHTML = `
+        <section class="chat-widget-section">
+            <h2 class="section-title">Need Help?</h2>
+            <div class="chat-widget-card">
+                <div class="chat-widget-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="chat-widget-content">
+                    <h3>Chat With Us Instantly</h3>
+                    <p>Have questions about our labels? Need custom designs? Our team is ready to help you in real-time.</p>
+                    <div class="chat-features">
+                        <div class="chat-feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>Instant Response</span>
+                        </div>
+                        <div class="chat-feature">
+                            <i class="fas fa-expert"></i>
+                            <span>Expert Advice</span>
+                        </div>
+                        <div class="chat-feature">
+                            <i class="fas fa-quote"></i>
+                            <span>Free Quotes</span>
+                        </div>
+                    </div>
+                    <a href="https://bluepureapp.github.io/#mobile-widget" target="_blank" class="chat-widget-button">
+                        <i class="fas fa-comment-dots"></i>
+                        Start Chat Now
+                    </a>
+                </div>
+            </div>
+        </section>
+    `;
+    
+    // Insert after about section
+    const aboutSection = document.querySelector('.about-section');
+    if (aboutSection) {
+        aboutSection.insertAdjacentHTML('afterend', chatWidgetHTML);
+    } else {
+        // Fallback: insert before footer
+        const footer = document.querySelector('.footer');
+        if (footer) {
+            footer.insertAdjacentHTML('beforebegin', chatWidgetHTML);
+        }
+    }
+    
+    // Add CSS for chat widget
+    const style = document.createElement('style');
+    style.textContent = `
+        .chat-widget-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .chat-widget-card {
+            background: linear-gradient(135deg, #3A8DFF 0%, #2B6CB0 100%);
+            border-radius: 25px;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            color: white;
+            box-shadow: 0 20px 40px rgba(58, 141, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chat-widget-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" opacity="0.1"><path d="M0,50 Q250,0 500,50 T1000,50 V100 H0 Z" fill="white"/></svg>');
+            background-size: cover;
+            opacity: 0.1;
+        }
+        
+        .chat-widget-icon {
+            flex-shrink: 0;
+        }
+        
+        .chat-widget-icon i {
+            font-size: 5rem;
+            color: white;
+            filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
+        }
+        
+        .chat-widget-content {
+            flex: 1;
+        }
+        
+        .chat-widget-content h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .chat-widget-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+        }
+        
+        .chat-features {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .chat-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .chat-feature i {
+            font-size: 1.2rem;
+        }
+        
+        .chat-feature span {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .chat-widget-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            color: #3A8DFF;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .chat-widget-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            background: #F7FAFC;
+        }
+        
+        .chat-widget-button:active {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .chat-widget-section {
+                padding: 0 1.5rem;
+                margin: 3rem auto;
+            }
+            
+            .chat-widget-card {
+                flex-direction: column;
+                padding: 2rem;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .chat-widget-icon i {
+                font-size: 4rem;
+            }
+            
+            .chat-widget-content h3 {
+                font-size: 1.8rem;
+            }
+            
+            .chat-features {
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .chat-feature {
+                padding: 0.6rem 1.2rem;
+            }
+            
+            .chat-widget-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .chat-widget-card {
+                padding: 1.5rem;
+            }
+            
+            .chat-widget-content h3 {
+                font-size: 1.5rem;
+            }
+            
+            .chat-widget-content p {
+                font-size: 1rem;
+            }
+            
+            .chat-features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // ============================================
@@ -274,23 +497,7 @@ function setupEventListeners() {
             const theme = THEMES.find(t => t.id === themeId);
             
             if (theme) {
-                if (currentState.userData) {
-                    const userData = {
-                        ...currentState.userData,
-                        selectedLabel: theme.name,
-                        labelId: theme.id,
-                        lastSelection: new Date().toISOString(),
-                        isReturning: true,
-                        previousTheme: currentState.userData.selectedLabel || 'None'
-                    };
-                    
-                    saveUserData(userData);
-                    sendNotification(userData, theme);
-                    showToast(`Updated to ${theme.name}! We'll contact you soon.`);
-                    
-                } else {
-                    showForm(theme);
-                }
+                handleThemeSelection(theme, false); // false = not from preview
             }
         }
     });
@@ -316,22 +523,7 @@ function setupEventListeners() {
             e.preventDefault();
             if (currentState.selectedTheme) {
                 closeImagePreview();
-                if (currentState.userData) {
-                    const userData = {
-                        ...currentState.userData,
-                        selectedLabel: currentState.selectedTheme.name,
-                        labelId: currentState.selectedTheme.id,
-                        lastSelection: new Date().toISOString(),
-                        isReturning: true,
-                        previousTheme: currentState.userData.selectedLabel || 'None'
-                    };
-                    
-                    saveUserData(userData);
-                    sendNotification(userData, currentState.selectedTheme);
-                    showToast(`Updated to ${currentState.selectedTheme.name}! We'll contact you soon.`);
-                } else {
-                    showForm(currentState.selectedTheme);
-                }
+                handleThemeSelection(currentState.selectedTheme, true); // true = from preview
             }
         });
     }
@@ -364,9 +556,39 @@ function setupEventListeners() {
 }
 
 // ============================================
-// EXISTING FUNCTIONS (Keep your original code)
+// THEME SELECTION HANDLER
 // ============================================
+function handleThemeSelection(theme, fromPreview) {
+    if (currentState.userData) {
+        // Returning user - send email notification
+        const userData = {
+            ...currentState.userData,
+            selectedLabel: theme.name,
+            labelId: theme.id,
+            lastSelection: new Date().toISOString(),
+            isReturning: true,
+            previousTheme: currentState.userData.selectedLabel || 'None',
+            selectedFromPreview: fromPreview
+        };
+        
+        saveUserData(userData);
+        sendNotification(userData, theme);
+        
+        if (fromPreview) {
+            showToast(`Selected ${theme.name} from preview! We'll contact you soon.`);
+        } else {
+            showToast(`Updated to ${theme.name}! We'll contact you soon.`);
+        }
+        
+    } else {
+        // New user
+        showForm(theme);
+    }
+}
 
+// ============================================
+// PHONE FORMATTING FUNCTIONS
+// ============================================
 function formatIndianPhoneNumber(input) {
     let numbers = input.replace(/\D/g, '');
     
@@ -398,14 +620,11 @@ function validateIndianPhone(phone) {
     return validStart.includes(subscriberNumber.charAt(0));
 }
 
+// ============================================
+// EMAIL NOTIFICATION SYSTEM
+// ============================================
 async function sendNotification(userData, theme) {
     console.log('📨 Sending label quote request...');
-    
-    if (!EMAILJS_CONFIG.PUBLIC_KEY || EMAILJS_CONFIG.PUBLIC_KEY === "user_YOUR_PUBLIC_KEY_HERE") {
-        console.log('📝 EmailJS not configured - saving locally');
-        saveLocalNotification(userData, theme);
-        return false;
-    }
     
     try {
         const templateParams = {
@@ -422,7 +641,8 @@ async function sendNotification(userData, theme) {
             user_id: userData.id || 'N/A',
             business_name: "BluePure Labels Inquiry",
             user_type: userData.isReturning ? 'Returning Customer' : 'New Customer',
-            previous_theme: userData.previousTheme || 'First Selection'
+            previous_theme: userData.previousTheme || 'First Selection',
+            selected_from_preview: userData.selectedFromPreview ? 'Yes' : 'No'
         };
         
         const response = await emailjs.send(
@@ -457,6 +677,9 @@ function saveLocalNotification(userData, theme) {
     console.log('📝 Notification saved locally:', notification);
 }
 
+// ============================================
+// LOCALSTORAGE MANAGEMENT
+// ============================================
 function loadUserData() {
     const savedData = localStorage.getItem('bluepure_user');
     if (savedData) {
@@ -474,15 +697,161 @@ function saveUserData(userData) {
     const dataToSave = {
         ...userData,
         lastUpdated: new Date().toISOString(),
-        isPWA: currentState.isPWAInstalled,
         location: "India"
     };
     
-    localStorage.setItem('bluepure_user', JSON.stringify(dataToSave));
+    localStorage.setItem('bluepure_user', JSON.stringify(dataToSave);
     currentState.userData = dataToSave;
     console.log('💾 User data saved');
 }
 
+// ============================================
+// FORM EVENT LISTENERS
+// ============================================
+function setupFormEventListeners() {
+    if (dom.userForm) {
+        dom.userForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = dom.userName?.value.trim() || '';
+            const phone = dom.userPhone?.value.trim() || '';
+            
+            // Validation
+            if (name.length < 2) {
+                alert('Please enter your full name (minimum 2 characters)');
+                return;
+            }
+            
+            if (!validateIndianPhone(phone)) {
+                alert('Please enter a valid Indian phone number (10 digits after +91)\nExample: +91 12345 67890');
+                return;
+            }
+            
+            // Create user data
+            const userData = {
+                id: 'bluepure_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+                name: name,
+                phone: phone,
+                selectedLabel: currentState.selectedTheme.name,
+                labelId: currentState.selectedTheme.id,
+                inquiryDate: new Date().toISOString(),
+                source: 'BluePure Website',
+                selectedFromPreview: false
+            };
+            
+            // Button loading state
+            const originalText = dom.submitBtn?.innerHTML || '';
+            if (dom.submitBtn) {
+                dom.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                dom.submitBtn.disabled = true;
+            }
+            
+            try {
+                // Save user data
+                saveUserData(userData);
+                
+                // Send notification
+                const notificationSent = await sendNotification(userData, currentState.selectedTheme);
+                
+                // Hide form
+                hideForm();
+                
+                // Show success message
+                if (notificationSent) {
+                    showToast(`Thank you ${name}! We'll contact you soon for your ${currentState.selectedTheme.name} labels.`);
+                } else {
+                    showToast(`Request saved! We'll contact you at ${phone} for ${currentState.selectedTheme.name} labels.`);
+                }
+                
+                // Mobile vibration feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate(100);
+                }
+                
+            } catch (error) {
+                console.error('Submission error:', error);
+                showToast('Something went wrong. Please try again or contact us directly.', 5000);
+                
+                // Fallback: Save locally
+                saveLocalNotification(userData, currentState.selectedTheme);
+                showToast('Saved offline. We\'ll contact you when back online.', 4000);
+                hideForm();
+                
+            } finally {
+                // Restore button
+                if (dom.submitBtn) {
+                    dom.submitBtn.innerHTML = originalText;
+                    dom.submitBtn.disabled = false;
+                }
+            }
+        });
+    }
+    
+    // Cancel button
+    if (dom.cancelBtn) {
+        dom.cancelBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideForm();
+        });
+    }
+    
+    // Close modal on outside click
+    if (dom.formModal) {
+        dom.formModal.addEventListener('click', function(e) {
+            if (e.target === dom.formModal) {
+                hideForm();
+            }
+        });
+    }
+}
+
+// ============================================
+// PHONE FORMATTING EVENT LISTENERS
+// ============================================
+function setupPhoneFormatting() {
+    if (!dom.userPhone) return;
+    
+    // Format on input
+    dom.userPhone.addEventListener('input', function(e) {
+        const cursorPosition = e.target.selectionStart;
+        const oldValue = e.target.value;
+        const newValue = formatIndianPhoneNumber(oldValue);
+        
+        e.target.value = newValue;
+        
+        // Maintain cursor position
+        const diff = newValue.length - oldValue.length;
+        e.target.setSelectionRange(cursorPosition + diff, cursorPosition + diff);
+    });
+    
+    // Prevent deleting +91
+    dom.userPhone.addEventListener('keydown', function(e) {
+        const cursorPosition = e.target.selectionStart;
+        
+        // If trying to delete +91 or characters before it
+        if ((e.key === 'Backspace' || e.key === 'Delete') && cursorPosition <= 4) {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Prevent typing non-digits after +91
+        if (cursorPosition > 3 && !/\d/.test(e.key) && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    
+    // Ensure +91 stays when field loses focus
+    dom.userPhone.addEventListener('blur', function(e) {
+        if (e.target.value && !e.target.value.startsWith('+91')) {
+            e.target.value = formatIndianPhoneNumber(e.target.value);
+        }
+    });
+}
+
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
 function showToast(message, duration = 4000) {
     if (!dom.successToast) return;
     
@@ -494,6 +863,7 @@ function showToast(message, duration = 4000) {
     dom.successToast.style.display = 'flex';
     dom.successToast.style.animation = 'slideInRight 0.5s ease';
     
+    // Auto hide
     setTimeout(() => {
         dom.successToast.style.animation = 'slideOutRight 0.5s ease forwards';
         setTimeout(() => {
@@ -503,119 +873,9 @@ function showToast(message, duration = 4000) {
     }, duration);
 }
 
-function setupFormEventListeners() {
-    if (dom.userForm) {
-        dom.userForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const name = dom.userName?.value.trim() || '';
-            const phone = dom.userPhone?.value.trim() || '';
-            
-            if (name.length < 2) {
-                alert('Please enter your full name (minimum 2 characters)');
-                return;
-            }
-            
-            if (!validateIndianPhone(phone)) {
-                alert('Please enter a valid Indian phone number (10 digits after +91)\nExample: +91 12345 67890');
-                return;
-            }
-            
-            const userData = {
-                id: 'bluepure_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
-                name: name,
-                phone: phone,
-                selectedLabel: currentState.selectedTheme.name,
-                labelId: currentState.selectedTheme.id,
-                inquiryDate: new Date().toISOString(),
-                source: 'BluePure Website',
-                isPWA: currentState.isPWAInstalled
-            };
-            
-            const originalText = dom.submitBtn?.innerHTML || '';
-            if (dom.submitBtn) {
-                dom.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                dom.submitBtn.disabled = true;
-            }
-            
-            try {
-                saveUserData(userData);
-                const notificationSent = await sendNotification(userData, currentState.selectedTheme);
-                
-                hideForm();
-                
-                if (notificationSent) {
-                    showToast(`Thank you ${name}! We'll contact you soon for your ${currentState.selectedTheme.name} labels.`);
-                } else {
-                    showToast(`Request saved! We'll contact you at ${phone} for ${currentState.selectedTheme.name} labels.`);
-                }
-                
-                if (navigator.vibrate) {
-                    navigator.vibrate(100);
-                }
-                
-            } catch (error) {
-                console.error('Submission error:', error);
-                showToast('Something went wrong. Please try again or contact us directly.', 5000);
-            } finally {
-                if (dom.submitBtn) {
-                    dom.submitBtn.innerHTML = originalText;
-                    dom.submitBtn.disabled = false;
-                }
-            }
-        });
-    }
-    
-    if (dom.cancelBtn) {
-        dom.cancelBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            hideForm();
-        });
-    }
-    
-    if (dom.formModal) {
-        dom.formModal.addEventListener('click', function(e) {
-            if (e.target === dom.formModal) {
-                hideForm();
-            }
-        });
-    }
-}
-
-function setupPhoneFormatting() {
-    if (!dom.userPhone) return;
-    
-    dom.userPhone.addEventListener('input', function(e) {
-        const cursorPosition = e.target.selectionStart;
-        const oldValue = e.target.value;
-        const newValue = formatIndianPhoneNumber(oldValue);
-        
-        e.target.value = newValue;
-        const diff = newValue.length - oldValue.length;
-        e.target.setSelectionRange(cursorPosition + diff, cursorPosition + diff);
-    });
-    
-    dom.userPhone.addEventListener('keydown', function(e) {
-        const cursorPosition = e.target.selectionStart;
-        
-        if ((e.key === 'Backspace' || e.key === 'Delete') && cursorPosition <= 4) {
-            e.preventDefault();
-            return false;
-        }
-        
-        if (cursorPosition > 3 && !/\d/.test(e.key) && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-            e.preventDefault();
-            return false;
-        }
-    });
-    
-    dom.userPhone.addEventListener('blur', function(e) {
-        if (e.target.value && !e.target.value.startsWith('+91')) {
-            e.target.value = formatIndianPhoneNumber(e.target.value);
-        }
-    });
-}
-
+// ============================================
+// NETWORK STATUS
+// ============================================
 function updateNetworkStatus() {
     if (!navigator.onLine) {
         showOfflineIndicator();
@@ -643,3 +903,20 @@ window.addEventListener('offline', () => {
     showOfflineIndicator();
     showToast('Offline mode - Working with saved data', 3000);
 });
+
+// ============================================
+// STARTUP LOG
+// ============================================
+console.log(`
+%c===================================================
+       BLUEPURE - CUSTOM LABELS PRODUCER
+===================================================
+📍 Location: Dubey Colony Padawa, Khandwa MP India
+📧 Email: bluepureindia@gmail.com
+📞 Phone: +91 6261491292
+⭐ Rating: 9.3/10 Client Satisfaction
+🚀 Version: 2.1.0
+===================================================
+`,
+'color: #3A8DFF; font-weight: bold;'
+);
