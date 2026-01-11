@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download BluePure App</title>
+    <title>BluePure App Installation</title>
     <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3A8DFF">
     
     <style>
-        /* Reset & Base Styles */
+        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
@@ -16,238 +18,254 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #3A8DFF 0%, #2B6CB0 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: white;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
             text-align: center;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
         }
         
-        /* Background Animation */
-        .bg-animation {
+        /* Cosmic Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(58, 141, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(72, 187, 120, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(237, 137, 54, 0.1) 0%, transparent 50%);
+        }
+        
+        .stars {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
             overflow: hidden;
         }
         
-        .ball {
+        .container::before {
+            content: '';
             position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.2;
-            animation: float 20s infinite ease-in-out;
-        }
-        
-        .ball-1 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #48BB78, #38A169);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-        
-        .ball-2 {
-            width: 250px;
-            height: 250px;
-            background: linear-gradient(135deg, #ED8936, #DD6B20);
-            bottom: 10%;
-            right: 10%;
-            animation-delay: -10s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(180deg); }
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #3A8DFF, #48BB78, #ED8936);
         }
         
         /* Logo */
         .logo {
             margin-bottom: 40px;
-            text-align: center;
         }
         
         .logo-icon {
-            width: 120px;
-            height: 120px;
-            border-radius: 25px;
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
             object-fit: cover;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            border: 5px solid white;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                0 0 0 5px rgba(255, 255, 255, 0.1);
             margin-bottom: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
         
         .logo h1 {
             font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3A8DFF, #48BB78);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 10px;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            letter-spacing: -1px;
         }
         
         .logo p {
             font-size: 1.2rem;
-            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 500;
         }
         
-        /* Main Content */
-        .main-content {
-            max-width: 600px;
-            margin: 0 auto;
+        /* Status Display */
+        .status-container {
+            margin: 50px 0;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
         }
         
-        .tagline {
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-            line-height: 1.4;
-            font-weight: 600;
-        }
-        
-        /* Download Button */
-        .download-container {
-            position: relative;
-            margin: 60px 0;
-        }
-        
-        .download-btn {
-            background: white;
+        .status-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
             color: #3A8DFF;
-            border: none;
-            padding: 25px 60px;
+        }
+        
+        .status-title {
             font-size: 1.8rem;
-            font-weight: 800;
-            border-radius: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 10px rgba(255, 255, 255, 0.1),
-                0 0 0 20px rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .download-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.8s;
-            z-index: -1;
-        }
-        
-        .download-btn:hover::before {
-            left: 100%;
-        }
-        
-        .download-btn:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.4),
-                0 0 0 15px rgba(255, 255, 255, 0.15),
-                0 0 0 30px rgba(255, 255, 255, 0.08);
-        }
-        
-        .download-btn:active {
-            transform: translateY(-5px) scale(1.02);
-        }
-        
-        .download-btn i {
-            font-size: 2.2rem;
-        }
-        
-        .download-badge {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            background: #48BB78;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        /* Features */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .feature-card i {
-            font-size: 2.5rem;
             margin-bottom: 15px;
-            color: #48BB78;
-        }
-        
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
             font-weight: 700;
         }
         
-        .feature-card p {
-            font-size: 1rem;
-            opacity: 0.9;
+        .status-message {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3A8DFF, #48BB78);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Countdown */
+        .countdown {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #48BB78;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #3A8DFF;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature i {
+            font-size: 1.8rem;
+            color: #48BB78;
+            margin-bottom: 15px;
+        }
+        
+        .feature h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .feature p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
             line-height: 1.5;
+        }
+        
+        /* Manual Button (Fallback) */
+        .manual-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #3A8DFF, #2B6CB0);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(58, 141, 255, 0.3);
+        }
+        
+        .manual-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(58, 141, 255, 0.4);
+        }
+        
+        .manual-btn:active {
+            transform: translateY(0);
         }
         
         /* Footer */
         .footer {
-            margin-top: 60px;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.7);
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.9rem;
         }
         
         .contact-info {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
+            gap: 25px;
+            margin-top: 15px;
             flex-wrap: wrap;
         }
         
@@ -259,39 +277,12 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
             .logo h1 {
                 font-size: 2.8rem;
-            }
-            
-            .logo-icon {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .tagline {
-                font-size: 1.5rem;
-            }
-            
-            .download-btn {
-                padding: 20px 40px;
-                font-size: 1.5rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .download-badge {
-                top: -15px;
-                right: -10px;
-                font-size: 0.8rem;
-                padding: 6px 12px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .logo h1 {
-                font-size: 2.2rem;
             }
             
             .logo-icon {
@@ -299,13 +290,12 @@
                 height: 80px;
             }
             
-            .tagline {
-                font-size: 1.3rem;
+            .status-title {
+                font-size: 1.5rem;
             }
             
-            .download-btn {
-                padding: 18px 30px;
-                font-size: 1.3rem;
+            .countdown {
+                font-size: 2rem;
             }
             
             .contact-info {
@@ -314,276 +304,414 @@
             }
         }
         
-        /* Install Instructions */
-        .instructions {
-            margin-top: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            display: none;
+        /* Success Animation */
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
-        .instructions.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .instructions h3 {
-            margin-bottom: 15px;
+        .success .status-icon {
+            animation: successPulse 2s infinite;
             color: #48BB78;
         }
         
-        .steps {
-            list-style: none;
-            text-align: left;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .steps li {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-        
-        .steps i {
-            color: #48BB78;
-            font-size: 1.2rem;
+        /* Error State */
+        .error .status-icon {
+            color: #ED8936;
         }
     </style>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="bg-animation">
-        <div class="ball ball-1"></div>
-        <div class="ball ball-2"></div>
-    </div>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
     
-    <!-- Logo -->
-    <div class="logo">
-        <img src="assets/icon.png" alt="BluePure Logo" class="logo-icon">
-        <h1>BluePure</h1>
-        <p>The Best Custom Labels Producers</p>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="main-content">
-        <h2 class="tagline">Get the Premium Experience<br>Download Our App Now</h2>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="assets/icon.png" alt="BluePure Logo" class="logo-icon">
+            <h1>BluePure</h1>
+            <p>The Best Custom Labels Producers</p>
+        </div>
         
-        <!-- Download Button -->
-        <div class="download-container">
-            <span class="download-badge">FREE</span>
-            <button class="download-btn" id="downloadBtn">
+        <!-- Status Display -->
+        <div class="status-container" id="statusContainer">
+            <div class="status-icon" id="statusIcon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            
+            <h2 class="status-title" id="statusTitle">Installing BluePure App...</h2>
+            
+            <p class="status-message" id="statusMessage">
+                Please wait while we install the BluePure app on your device.
+                This will only take a moment.
+            </p>
+            
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <!-- Countdown -->
+            <div class="countdown" id="countdown">3</div>
+            
+            <!-- Manual Install Button (Fallback) -->
+            <button class="manual-btn" id="manualBtn" style="display: none;">
                 <i class="fas fa-download"></i>
-                Download BluePure App
+                Click to Install Manually
             </button>
         </div>
         
-        <!-- Install Instructions -->
-        <div class="instructions" id="instructions">
-            <h3><i class="fas fa-info-circle"></i> How to Install</h3>
-            <ul class="steps">
-                <li><i class="fas fa-check"></i> Click "Add to Home Screen" in browser menu</li>
-                <li><i class="fas fa-check"></i> Or tap "Install" when prompted</li>
-                <li><i class="fas fa-check"></i> Launch from your home screen</li>
-                <li><i class="fas fa-check"></i> Enjoy faster access & offline features</li>
-            </ul>
-        </div>
-        
         <!-- Features -->
-        <div class="features">
-            <div class="feature-card">
+        <div class="features-grid">
+            <div class="feature">
                 <i class="fas fa-bolt"></i>
                 <h3>Lightning Fast</h3>
-                <p>Optimized for speed with instant loading and smooth performance on all devices.</p>
+                <p>Optimized PWA with instant loading and native-like performance</p>
             </div>
             
-            <div class="feature-card">
+            <div class="feature">
                 <i class="fas fa-mobile-alt"></i>
-                <h3>Mobile Optimized</h3>
-                <p>Perfectly designed for mobile with touch-friendly interface and gestures.</p>
+                <h3>Installable</h3>
+                <p>Add to home screen like a native app. No app store required</p>
             </div>
             
-            <div class="feature-card">
+            <div class="feature">
                 <i class="fas fa-wifi-slash"></i>
                 <h3>Works Offline</h3>
-                <p>Access your label designs even without internet connection.</p>
+                <p>Access your label designs even without internet connection</p>
             </div>
             
-            <div class="feature-card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Secure & Private</h3>
-                <p>Your data stays on your device. No tracking, no ads, just pure functionality.</p>
+            <div class="feature">
+                <i class="fas fa-sync-alt"></i>
+                <h3>Auto Updates</h3>
+                <p>Always get the latest features without manual updates</p>
             </div>
         </div>
-    </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-        <p>© 2024 BluePure - The Best Custom Labels Producers</p>
-        <div class="contact-info">
-            <span><i class="fas fa-envelope"></i> bluepureindia@gmail.com</span>
-            <span><i class="fas fa-map-marker-alt"></i> Dubey Colony Padawa, Khandwa MP India</span>
-            <span><i class="fas fa-phone"></i> +91 6261491292</span>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2024 BluePure - The Best Custom Labels Producers</p>
+            <div class="contact-info">
+                <span><i class="fas fa-envelope"></i> bluepureindia@gmail.com</span>
+                <span><i class="fas fa-map-marker-alt"></i> Dubey Colony Padawa, Khandwa MP India</span>
+                <span><i class="fas fa-phone"></i> +91 6261491292</span>
+            </div>
         </div>
     </div>
     
     <script>
-        let deferredPrompt;
+        // Create stars for background
+        function createStars() {
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                stars.appendChild(star);
+            }
+        }
         
-        // Check if browser supports PWA installation
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            console.log('✅ PWA install prompt available');
-        });
+        createStars();
         
-        // Download button click handler
-        document.getElementById('downloadBtn').addEventListener('click', async () => {
-            const downloadBtn = document.getElementById('downloadBtn');
-            const instructions = document.getElementById('instructions');
-            
-            if (deferredPrompt) {
-                // Show install prompt
-                deferredPrompt.prompt();
-                
-                const { outcome } = await deferredPrompt.userChoice;
-                
-                if (outcome === 'accepted') {
-                    // User accepted installation
-                    downloadBtn.innerHTML = '<i class="fas fa-check"></i> App Installed!';
-                    downloadBtn.style.background = '#48BB78';
-                    downloadBtn.style.color = 'white';
-                    downloadBtn.disabled = true;
+        // State management
+        let deferredPrompt = null;
+        let installationState = 'initializing';
+        let countdownValue = 3;
+        
+        // DOM Elements
+        const statusContainer = document.getElementById('statusContainer');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusMessage = document.getElementById('statusMessage');
+        const progressFill = document.getElementById('progressFill');
+        const countdownElement = document.getElementById('countdown');
+        const manualBtn = document.getElementById('manualBtn');
+        
+        // Update UI based on state
+        function updateUI() {
+            switch(installationState) {
+                case 'initializing':
+                    statusTitle.textContent = 'Initializing Installation...';
+                    statusMessage.textContent = 'Checking device compatibility and preparing installation.';
+                    statusIcon.innerHTML = '<i class="fas fa-cog fa-spin"></i>';
+                    updateProgress(10);
+                    break;
                     
-                    // Show success message
-                    showToast('BluePure app installed successfully!', 5000);
+                case 'checking_pwa':
+                    statusTitle.textContent = 'Checking PWA Support...';
+                    statusMessage.textContent = 'Verifying if your browser supports Progressive Web App installation.';
+                    statusIcon.innerHTML = '<i class="fas fa-search"></i>';
+                    updateProgress(30);
+                    break;
                     
-                    // Redirect to main app after 2 seconds
+                case 'prompt_available':
+                    statusTitle.textContent = 'Ready to Install!';
+                    statusMessage.textContent = 'Your device supports PWA installation. Starting automatic installation...';
+                    statusIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    updateProgress(60);
+                    startCountdown();
+                    break;
+                    
+                case 'prompting':
+                    statusTitle.textContent = 'Showing Installation Prompt...';
+                    statusMessage.textContent = 'Please check for the installation dialog on your screen.';
+                    statusIcon.innerHTML = '<i class="fas fa-arrow-up"></i>';
+                    updateProgress(80);
+                    break;
+                    
+                case 'installing':
+                    statusTitle.textContent = 'Installing...';
+                    statusMessage.textContent = 'BluePure app is being installed on your device.';
+                    statusIcon.innerHTML = '<i class="fas fa-download"></i>';
+                    updateProgress(90);
+                    break;
+                    
+                case 'success':
+                    statusContainer.classList.add('success');
+                    statusTitle.textContent = 'Installation Complete!';
+                    statusMessage.textContent = 'BluePure app has been successfully installed. Launching now...';
+                    statusIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    updateProgress(100);
+                    countdownElement.style.display = 'none';
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 2000);
+                    break;
                     
-                } else {
-                    // User declined installation
-                    showToast('Installation cancelled. You can install later.', 3000);
-                    instructions.classList.add('show');
+                case 'already_installed':
+                    statusContainer.classList.add('success');
+                    statusTitle.textContent = 'App Already Installed!';
+                    statusMessage.textContent = 'BluePure app is already installed on your device. Launching now...';
+                    statusIcon.innerHTML = '<i class="fas fa-rocket"></i>';
+                    updateProgress(100);
+                    countdownElement.style.display = 'none';
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                    break;
+                    
+                case 'manual_required':
+                    statusContainer.classList.add('error');
+                    statusTitle.textContent = 'Manual Installation Required';
+                    statusMessage.textContent = 'Your browser requires manual installation. Click the button below.';
+                    statusIcon.innerHTML = '<i class="fas fa-hand-pointer"></i>';
+                    updateProgress(100);
+                    countdownElement.style.display = 'none';
+                    manualBtn.style.display = 'inline-flex';
+                    break;
+                    
+                case 'unsupported':
+                    statusContainer.classList.add('error');
+                    statusTitle.textContent = 'Browser Not Supported';
+                    statusMessage.textContent = 'Your browser does not support PWA installation. Please use Chrome, Edge, or Safari.';
+                    statusIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                    updateProgress(100);
+                    countdownElement.style.display = 'none';
+                    break;
+            }
+        }
+        
+        // Update progress bar
+        function updateProgress(percent) {
+            progressFill.style.width = percent + '%';
+        }
+        
+        // Countdown timer
+        function startCountdown() {
+            countdownElement.textContent = countdownValue;
+            
+            const countdownInterval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                    triggerAutoInstall();
+                }
+            }, 1000);
+        }
+        
+        // Trigger automatic installation
+        async function triggerAutoInstall() {
+            if (deferredPrompt) {
+                installationState = 'prompting';
+                updateUI();
+                
+                try {
+                    // Show installation prompt
+                    deferredPrompt.prompt();
+                    installationState = 'installing';
+                    updateUI();
+                    
+                    // Wait for user choice
+                    const choiceResult = await deferredPrompt.userChoice;
+                    
+                    if (choiceResult.outcome === 'accepted') {
+                        installationState = 'success';
+                        console.log('✅ User accepted PWA installation');
+                        
+                        // Track installation
+                                               localStorage.setItem('bluepure_pwa_installed', 'true');
+                        localStorage.setItem('bluepure_install_date', new Date().toISOString());
+                        
+                    } else {
+                        installationState = 'manual_required';
+                        console.log('❌ User dismissed PWA install prompt');
+                    }
+                    
+                } catch (error) {
+                    console.error('Installation error:', error);
+                    installationState = 'manual_required';
                 }
                 
                 deferredPrompt = null;
+                updateUI();
                 
             } else {
-                // PWA not supported or already installed
-                if (window.matchMedia('(display-mode: standalone)').matches) {
-                    // Already installed as PWA
-                    showToast('App is already installed!', 3000);
-                    window.location.href = 'index.html';
+                // No prompt available
+                if (isPWAInstalled()) {
+                    installationState = 'already_installed';
                 } else {
-                    // Show instructions for manual installation
-                    instructions.classList.add('show');
-                    showToast('Use browser menu to install app', 4000);
-                    
-                    // Add pulsing animation to draw attention
-                    downloadBtn.style.animation = 'pulse 1s infinite';
-                    setTimeout(() => {
-                        downloadBtn.style.animation = '';
-                    }, 3000);
+                    installationState = 'manual_required';
                 }
-            }
-        });
-        
-        // Show toast notification
-        function showToast(message, duration = 3000) {
-            // Remove existing toast
-            const existingToast = document.querySelector('.toast');
-            if (existingToast) existingToast.remove();
-            
-            // Create new toast
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `
-                <div style="
-                    position: fixed;
-                    bottom: 30px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(0, 0, 0, 0.9);
-                    color: white;
-                    padding: 15px 25px;
-                    border-radius: 50px;
-                    font-weight: 600;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    z-index: 10000;
-                    animation: toastSlideUp 0.3s ease;
-                ">
-                    <i class="fas fa-info-circle" style="margin-right: 10px; color: #48BB78;"></i>
-                    ${message}
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Auto remove after duration
-            setTimeout(() => {
-                toast.style.animation = 'toastSlideDown 0.3s ease forwards';
-                setTimeout(() => toast.remove(), 300);
-            }, duration);
-            
-            // Add CSS for toast animations
-            if (!document.querySelector('#toast-styles')) {
-                const style = document.createElement('style');
-                style.id = 'toast-styles';
-                style.textContent = `
-                    @keyframes toastSlideUp {
-                        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
-                        to { transform: translateX(-50%) translateY(0); opacity: 1; }
-                    }
-                    @keyframes toastSlideDown {
-                        from { transform: translateX(-50%) translateY(0); opacity: 1; }
-                        to { transform: translateX(-50%) translateY(100px); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
+                updateUI();
             }
         }
         
-        // Add click animation to all cards
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.addEventListener('click', function() {
-                this.style.transform = 'translateY(-5px) scale(1.02)';
-                setTimeout(() => {
-                    this.style.transform = 'translateY(-10px)';
-                }, 100);
-            });
-        });
+        // Check if PWA is already installed
+        function isPWAInstalled() {
+            return window.matchMedia('(display-mode: standalone)').matches || 
+                   window.navigator.standalone ||
+                   document.referrer.includes('android-app://');
+        }
         
-        // Check if app is already installed
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            document.querySelector('.tagline').textContent = 'BluePure App is Already Installed!';
-            document.getElementById('downloadBtn').innerHTML = '<i class="fas fa-rocket"></i> Launch App Now';
-            
-            // Change button action to launch app
-            document.getElementById('downloadBtn').addEventListener('click', function(e) {
-                e.preventDefault();
+        // Manual install button handler
+        manualBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                try {
+                    deferredPrompt.prompt();
+                    const choiceResult = await deferredPrompt.userChoice;
+                    
+                    if (choiceResult.outcome === 'accepted') {
+                        installationState = 'success';
+                        updateUI();
+                    }
+                } catch (error) {
+                    console.error('Manual installation failed:', error);
+                }
+            } else {
+                // Redirect to main page if no prompt
                 window.location.href = 'index.html';
-            });
+            }
+        });
+        
+        // Main installation flow
+        async function startInstallationFlow() {
+            console.log('🚀 Starting automatic PWA installation...');
+            
+            // Step 1: Initializing
+            installationState = 'initializing';
+            updateUI();
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Step 2: Check if already installed
+            if (isPWAInstalled()) {
+                installationState = 'already_installed';
+                updateUI();
+                return;
+            }
+            
+            // Step 3: Check PWA support
+            installationState = 'checking_pwa';
+            updateUI();
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Step 4: Check for beforeinstallprompt event
+            if (deferredPrompt) {
+                installationState = 'prompt_available';
+                updateUI();
+            } else {
+                // No prompt available, check if we can trigger manually
+                if ('BeforeInstallPromptEvent' in window) {
+                    installationState = 'manual_required';
+                } else {
+                    installationState = 'unsupported';
+                }
+                updateUI();
+            }
         }
         
-        // Log page load
-        console.log('%c📲 BluePure App Download Page', 'color: #3A8DFF; font-weight: bold; font-size: 16px;');
-        console.log('%c👉 Click the big blue button to install!', 'color: #48BB78;');
+        // Listen for beforeinstallprompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('🎯 beforeinstallprompt event fired');
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Update state if we're still in checking phase
+            if (installationState === 'checking_pwa') {
+                installationState = 'prompt_available';
+                updateUI();
+            }
+        });
+        
+        // Start installation when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start installation flow
+            setTimeout(() => {
+                startInstallationFlow();
+            }, 1500);
+            
+            // Log for debugging
+            console.log('📱 BluePure Auto-Install Page Loaded');
+            console.log('📍 User Agent:', navigator.userAgent);
+            console.log('📦 PWA Installed:', isPWAInstalled());
+            console.log('🔧 Service Worker:', 'serviceWorker' in navigator);
+        });
+        
+        // Listen for app installed event
+        window.addEventListener('appinstalled', () => {
+            console.log('🎉 PWA was installed');
+            installationState = 'success';
+            updateUI();
+            
+            // Track in analytics
+            if (window.gtag) {
+                gtag('event', 'pwa_installed');
+            }
+        });
+        
+        // Add to home screen detection for iOS
+        window.addEventListener('DOMContentLoaded', () => {
+            // iOS detection and guidance
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            
+            if (isIOS && isSafari && !isPWAInstalled()) {
+                // Show iOS instructions after a delay
+                setTimeout(() => {
+                    statusMessage.innerHTML = `
+                        For iOS: Tap <i class="fas fa-share"></i> Share button, 
+                        then "Add to Home Screen"<br><br>
+                        <small style="opacity:0.7">This message will auto-dismiss in 10 seconds</small>
+                    `;
+                    
+                    setTimeout(() => {
+                        statusMessage.textContent = 'Waiting for installation...';
+                    }, 10000);
+                }, 3000);
+            }
+        });
     </script>
 </body>
 </html>
