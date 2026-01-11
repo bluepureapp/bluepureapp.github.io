@@ -268,9 +268,12 @@ body {
     box-shadow: 0 15px 30px rgba(58, 141, 255, 0.15);
 }
 
+/* ============================================
+   THEME IMAGES - INCREASED SIZE
+   ============================================ */
 .theme-image {
     width: 100%;
-    height: 160px;
+    height: 250px; /* INCREASED SIZE - Desktop */
     background: linear-gradient(135deg, #667EEA, #764BA2);
     position: relative;
     overflow: hidden;
@@ -285,6 +288,11 @@ body {
     height: 100%;
     background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
     animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .theme-badge {
@@ -529,7 +537,6 @@ body {
     gap: 8px;
     transition: all 0.3s ease;
 }
-
 /* ============================================
    ABOUT SECTION - MOBILE OPTIMIZED
    ============================================ */
@@ -1097,6 +1104,10 @@ body {
     .theme-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .theme-image {
+        height: 230px; /* Larger for tablet */
+    }
 }
 
 @media (max-width: 768px) {
@@ -1142,11 +1153,12 @@ body {
     }
     
     .theme-image {
-        height: 140px;
+        height: 200px; /* INCREASED for mobile */
     }
     
     .theme-content {
         padding: 1rem;
+        min-height: 160px;
     }
     
     .theme-name {
@@ -1278,6 +1290,10 @@ body {
     
     .section-title {
         font-size: 1.4rem;
+    }
+    
+    .theme-image {
+        height: 190px; /* Good size for small phones */
     }
     
     .stats {
