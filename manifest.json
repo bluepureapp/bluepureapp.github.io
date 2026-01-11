@@ -1,28 +1,24 @@
 {
-  "name": "BluePure",
-  "short_name": "BluePure",
-  "description": "Select your perfect design theme",
+  "name": "BluePure - Custom Labels Producer",
+  "short_name": "BluePure Labels",
+  "description": "India's Best Custom Labels Manufacturer. Design premium labels for packaging and branding.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F7FAFC",
   "theme_color": "#3A8DFF",
   "orientation": "any",
-  "categories": ["business", "productivity"],
-  
   "icons": [
     {
       "src": "assets/icon.png",
-      "sizes": "72x72 96x96 128x128 144x144 152x152 192x192 384x384 512x512 720x720 1080x1080",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  
-  "shortcuts": [
+    },
     {
-      "name": "Browse Themes",
-      "url": "/",
-      "icons": [{ "src": "assets/icon.png", "sizes": "96x96" }]
+      "src": "assets/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
