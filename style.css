@@ -63,8 +63,8 @@ body {
 }
 
 .ball-1 {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     background: linear-gradient(135deg, #3A8DFF, #667EEA);
     top: 10%;
     left: 5%;
@@ -72,8 +72,8 @@ body {
 }
 
 .ball-2 {
-    width: 250px;
-    height: 250px;
+    width: 180px;
+    height: 180px;
     background: linear-gradient(135deg, #48BB78, #38A169);
     top: 60%;
     right: 10%;
@@ -81,8 +81,8 @@ body {
 }
 
 .ball-3 {
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
     background: linear-gradient(135deg, #ED8936, #DD6B20);
     bottom: 10%;
     left: 20%;
@@ -95,31 +95,32 @@ body {
 }
 
 /* ============================================
-   HEADER
+   HEADER - MOBILE OPTIMIZED
    ============================================ */
 .header {
-    padding: 1.5rem 2rem;
+    padding: 1rem 1.2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     animation: fadeInDown 0.8s ease;
     position: relative;
+    flex-wrap: wrap;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 1.8rem;
+    gap: 10px;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #2D3748;
     z-index: 2;
 }
 
 .logo-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(58, 141, 255, 0.3);
     border: 2px solid white;
@@ -127,18 +128,16 @@ body {
 
 .tagline {
     color: #718096;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     background: rgba(255,255,255,0.9);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
     backdrop-filter: blur(10px);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     text-align: center;
-    z-index: 1;
     font-weight: 500;
-    white-space: nowrap;
+    width: 100%;
+    order: 3;
+    margin-top: 0.5rem;
 }
 
 /* ============================================
@@ -147,52 +146,42 @@ body {
 .pwa-install {
     background: linear-gradient(135deg, #48BB78 0%, #38A169 100%);
     color: white;
-    padding: 8px 16px;
-    border-radius: 25px;
+    padding: 6px 12px;
+    border-radius: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
+    gap: 6px;
+    font-size: 12px;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
     user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
     border: none;
     outline: none;
     z-index: 2;
 }
 
-.pwa-install:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
-}
-
-.pwa-install:active {
-    transform: translateY(0);
-}
-
 /* ============================================
-   HERO SECTION
+   HERO SECTION - MOBILE OPTIMIZED
    ============================================ */
 .hero {
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 2.5rem 1.2rem;
     max-width: 800px;
     margin: 0 auto;
     animation: fadeIn 1s ease 0.2s both;
 }
 
 .hero-title {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
     background: linear-gradient(135deg, #2D3748 0%, #3A8DFF 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     line-height: 1.2;
+    padding: 0 0.5rem;
 }
 
 .highlight {
@@ -204,36 +193,37 @@ body {
 .highlight::after {
     content: '';
     position: absolute;
-    bottom: 5px;
+    bottom: 3px;
     left: 0;
     width: 100%;
-    height: 8px;
+    height: 6px;
     background: rgba(58, 141, 255, 0.2);
     z-index: -1;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #718096;
     max-width: 600px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.5;
+    padding: 0 0.5rem;
 }
 
 /* ============================================
-   THEMES SECTION
+   THEMES SECTION - MOBILE 2 COLUMNS
    ============================================ */
 .themes-section {
-    padding: 2rem;
+    padding: 1.5rem 1.2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .section-title {
     text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
     color: #2D3748;
     position: relative;
     display: inline-block;
@@ -244,27 +234,28 @@ body {
 .section-title::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -8px;
     left: 25%;
     width: 50%;
-    height: 4px;
+    height: 3px;
     background: linear-gradient(90deg, transparent, #3A8DFF, transparent);
     border-radius: 2px;
 }
 
+/* Desktop: 3 columns, Mobile: 2 columns */
 .theme-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
     margin-bottom: 2rem;
 }
 
 .theme-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
     position: relative;
     cursor: pointer;
     display: flex;
@@ -273,29 +264,13 @@ body {
 }
 
 .theme-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(58, 141, 255, 0.15);
-}
-
-.theme-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, #3A8DFF, #48BB78);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.theme-card:hover::before {
-    opacity: 1;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(58, 141, 255, 0.15);
 }
 
 .theme-image {
     width: 100%;
-    height: 200px;
+    height: 160px;
     background: linear-gradient(135deg, #667EEA, #764BA2);
     position: relative;
     overflow: hidden;
@@ -312,37 +287,32 @@ body {
     animation: shimmer 2s infinite;
 }
 
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
 .theme-badge {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 12px;
+    right: 12px;
     background: rgba(255, 255, 255, 0.95);
     color: #234E52;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: 700;
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border: 1px solid rgba(58, 141, 255, 0.1);
 }
 
 .theme-content {
-    padding: 1.5rem;
+    padding: 1.2rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
 .theme-name {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     margin-bottom: 0.5rem;
     color: #2D3748;
     display: flex;
@@ -350,47 +320,39 @@ body {
     align-items: center;
 }
 
-.theme-tag {
-    background: #E6FFFA;
-    color: #234E52;
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
 .theme-desc {
     color: #718096;
-    margin-bottom: 1rem;
-    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
     flex-grow: 1;
+    font-size: 0.9rem;
 }
 
 .theme-features {
     list-style: none;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
 }
 
 .theme-features li {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 0.5rem;
+    gap: 8px;
+    margin-bottom: 0.4rem;
     color: #4A5568;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .theme-features i {
     color: #48BB78;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 
 /* ============================================
-   THEME BUTTONS CONTAINER - AT BOTTOM
+   THEME BUTTONS - MOBILE OPTIMIZED
    ============================================ */
 .theme-buttons {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.6rem;
     margin-top: auto;
 }
 
@@ -399,22 +361,21 @@ body {
     background: #F7FAFC;
     color: #3A8DFF;
     border: 2px solid #E2E8F0;
-    padding: 0.8rem;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 0.6rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.3s ease;
 }
 
 .preview-btn-small:hover {
     background: #EDF2F7;
     border-color: #3A8DFF;
-    transform: translateY(-2px);
 }
 
 .btn-choose {
@@ -422,29 +383,25 @@ body {
     background: linear-gradient(135deg, #3A8DFF 0%, #2B6CB0 100%);
     color: white;
     border: none;
-    padding: 0.8rem;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 0.6rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.3s ease;
 }
 
 .btn-choose:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(58, 141, 255, 0.3);
-}
-
-.btn-choose:active {
-    transform: translateY(0);
+    box-shadow: 0 8px 15px rgba(58, 141, 255, 0.3);
 }
 
 /* ============================================
-   IMAGE PREVIEW MODAL - 3:4 ASPECT RATIO
+   PREVIEW MODAL - MOBILE OPTIMIZED 3:4
    ============================================ */
 .image-preview-modal {
     position: fixed;
@@ -458,7 +415,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 2000;
-    padding: 20px;
+    padding: 15px;
     animation: fadeIn 0.3s ease;
 }
 
@@ -468,30 +425,19 @@ body {
 
 .preview-container {
     width: 100%;
-    max-width: 450px;
+    max-width: 400px;
     max-height: 90vh;
     background: white;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease;
 }
 
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
 .preview-header {
-    padding: 1.2rem 1.5rem;
+    padding: 1rem 1.2rem;
     background: linear-gradient(135deg, #3A8DFF, #2B6CB0);
     color: white;
     display: flex;
@@ -501,27 +447,22 @@ body {
 
 .preview-header h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
 }
 
 .preview-close {
     background: rgba(255, 255, 255, 0.2);
     border: none;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     color: white;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease;
-}
-
-.preview-close:hover {
-    background: rgba(255, 255, 255, 0.3);
 }
 
 .preview-image {
@@ -538,241 +479,191 @@ body {
     background: inherit;
 }
 
-.preview-image-content::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-    animation: shimmer 2s infinite;
-}
-
 .preview-info {
-    padding: 1.5rem;
+    padding: 1.2rem;
     background: white;
 }
 
 .preview-details h4 {
     color: #2D3748;
     margin-bottom: 0.5rem;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
 }
 
 .preview-details p {
     color: #718096;
     margin-bottom: 1rem;
-    line-height: 1.5;
+    line-height: 1.4;
+    font-size: 0.9rem;
 }
 
 .preview-features {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
 }
 
 .preview-feature {
     background: #F7FAFC;
     color: #4A5568;
-    padding: 0.4rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
     font-weight: 500;
 }
 
 .btn-select-from-preview {
     width: 100%;
-    padding: 1rem;
+    padding: 0.8rem;
     background: linear-gradient(135deg, #48BB78, #38A169);
     color: white;
     border: none;
-    border-radius: 12px;
-    font-size: 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     transition: all 0.3s ease;
 }
 
-.btn-select-from-preview:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
-}
-
 /* ============================================
-   ABOUT SECTION
+   ABOUT SECTION - MOBILE OPTIMIZED
    ============================================ */
 .about-section {
     max-width: 1200px;
-    margin: 4rem auto;
-    padding: 3rem 2rem;
+    margin: 3rem auto;
+    padding: 2rem 1.2rem;
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(10px);
     animation: fadeIn 1s ease 0.6s both;
 }
 
 .about-content h2 {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     color: #2D3748;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     position: relative;
-}
-
-.about-content h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 4px;
-    background: linear-gradient(90deg, #3A8DFF, #48BB78);
-    border-radius: 2px;
 }
 
 .about-content > p {
     text-align: center;
     color: #718096;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.5;
     max-width: 800px;
-    margin: 0 auto 2rem;
+    margin: 0 auto 1.5rem;
 }
 
 .about-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
 .feature {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 1.2rem;
+    gap: 10px;
+    padding: 1rem;
     background: #F7FAFC;
-    border-radius: 12px;
+    border-radius: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(58, 141, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(58, 141, 255, 0.1);
 }
 
 .feature i {
     color: #48BB78;
-    font-size: 1.3rem;
-    min-width: 28px;
+    font-size: 1.1rem;
+    min-width: 24px;
 }
 
 .feature span {
     color: #4A5568;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 /* ============================================
-   BUSINESS INFO SECTION (MOVED TO BOTTOM)
+   BUSINESS INFO SECTION
    ============================================ */
 .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    padding: 3rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 1.2rem;
     background: rgba(255,255,255,0.8);
-    border-radius: 25px;
+    border-radius: 20px;
     max-width: 1000px;
-    margin: 4rem auto;
+    margin: 3rem auto;
     backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .stat-card {
     text-align: center;
-    padding: 1.5rem;
+    padding: 1.2rem;
     transition: transform 0.3s ease;
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(58, 141, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(58, 141, 255, 0.1);
 }
 
 .stat-card i {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #3A8DFF;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
 }
 
 .stat-card h3 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: #2D3748;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     font-weight: 700;
 }
 
 .stat-card p {
     color: #718096;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.stat-card:nth-child(3) p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     line-height: 1.3;
 }
 
-.stat-card:nth-child(4) p {
-    color: #3A8DFF;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
 /* ============================================
-   CHAT WIDGET SECTION
+   CHAT WIDGET SECTION - SMALLER BUTTON
    ============================================ */
 .chat-widget-section {
     max-width: 1200px;
-    margin: 0 auto 4rem;
-    padding: 0 2rem;
+    margin: 0 auto 3rem;
+    padding: 0 1.2rem;
 }
 
 .chat-widget-card {
     background: linear-gradient(135deg, #3A8DFF 0%, #2B6CB0 100%);
-    border-radius: 25px;
-    padding: 3rem;
+    border-radius: 20px;
+    padding: 2rem;
     display: flex;
     align-items: center;
-    gap: 3rem;
+    gap: 2rem;
     color: white;
-    box-shadow: 0 20px 40px rgba(58, 141, 255, 0.3);
+    box-shadow: 0 15px 30px rgba(58, 141, 255, 0.3);
     position: relative;
     overflow: hidden;
-}
-
-.chat-widget-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" opacity="0.1"><path d="M0,50 Q250,0 500,50 T1000,50 V100 H0 Z" fill="white"/></svg>');
-    background-size: cover;
-    opacity: 0.1;
 }
 
 .chat-widget-icon {
@@ -780,9 +671,9 @@ body {
 }
 
 .chat-widget-icon i {
-    font-size: 5rem;
+    font-size: 3.5rem;
     color: white;
-    filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
+    filter: drop-shadow(0 4px 10px rgba(255, 255, 255, 0.3));
 }
 
 .chat-widget-content {
@@ -790,85 +681,69 @@ body {
 }
 
 .chat-widget-content h3 {
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
     color: white;
 }
 
 .chat-widget-content p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
     color: rgba(255, 255, 255, 0.9);
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .chat-features {
     display: flex;
-    gap: 2rem;
-    margin-bottom: 2.5rem;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
     flex-wrap: wrap;
 }
 
 .chat-feature {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: rgba(255, 255, 255, 0.15);
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
+    padding: 0.6rem 1rem;
+    border-radius: 40px;
     backdrop-filter: blur(10px);
 }
 
 .chat-feature i {
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .chat-feature span {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 
-/* Chat Widget Buttons */
-.mobile-chat-redirect,
-.desktop-chat-widget {
+/* SMALLER CHAT BUTTON */
+.chat-widget-button {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     background: white;
     color: #3A8DFF;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    font-size: 1.1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 40px;
+    font-size: 1rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: auto;
     justify-content: center;
 }
 
-.mobile-chat-redirect:hover,
-.desktop-chat-widget:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+.chat-widget-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
     background: #F7FAFC;
-}
-
-.mobile-chat-redirect:active,
-.desktop-chat-widget:active {
-    transform: translateY(-2px);
-}
-
-/* Show/Hide based on device */
-.mobile-chat-redirect {
-    display: none;
-}
-
-.desktop-chat-widget {
-    display: block;
 }
 
 /* ============================================
@@ -891,152 +766,115 @@ body {
 
 .modal {
     background: white;
-    border-radius: 25px;
+    border-radius: 20px;
     width: 90%;
-    max-width: 500px;
-    padding: 2rem;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    max-width: 450px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
 }
 
 .modal-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .modal-header h2 {
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: #2D3748;
     margin-bottom: 0.5rem;
 }
 
 .modal-header p {
     color: #718096;
+    font-size: 0.9rem;
 }
 
 /* ============================================
    FORM STYLES
    ============================================ */
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     position: relative;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     color: #4A5568;
     font-weight: 600;
+    font-size: 0.9rem;
 }
 
 .form-group input {
     width: 100%;
-    padding: 1rem 1rem 1rem 3rem;
+    padding: 0.8rem 0.8rem 0.8rem 2.5rem;
     border: 2px solid #E2E8F0;
-    border-radius: 12px;
-    font-size: 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     background: #F7FAFC;
 }
 
-input:focus, input:active {
-    outline: none !important;
-    border-color: #3A8DFF !important;
-    box-shadow: 0 0 0 3px rgba(58, 141, 255, 0.1) !important;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 .input-icon {
     position: absolute;
-    left: 1rem;
-    top: 2.7rem;
+    left: 0.8rem;
+    top: 2.3rem;
     color: #A0AEC0;
     pointer-events: none;
+    font-size: 0.9rem;
 }
 
-.form-group small {
-    display: block;
-    margin-top: 0.5rem;
-    color: #A0AEC0;
-    font-size: 0.8rem;
-}
-
-/* Phone Input Styling */
 .phone-input-container {
     position: relative;
 }
 
 .country-code {
     position: absolute;
-    left: 1rem;
+    left: 0.8rem;
     top: 50%;
     transform: translateY(-50%);
     color: #4A5568;
     font-weight: 600;
     pointer-events: none;
     z-index: 2;
+    font-size: 0.9rem;
 }
 
 .form-group input#userPhone {
-    padding-left: 4rem;
-}
-
-.phone-format-hint {
-    display: block;
-    margin-top: 0.25rem;
-    font-size: 0.75rem;
-    color: #ED8936;
-    font-style: italic;
+    padding-left: 3.5rem;
 }
 
 .selected-theme-preview {
     background: #F7FAFC;
-    padding: 1.5rem;
-    border-radius: 15px;
-    margin: 1.5rem 0;
+    padding: 1.2rem;
+    border-radius: 12px;
+    margin: 1.2rem 0;
     border-left: 4px solid #3A8DFF;
 }
 
 .selected-theme-preview h4 {
     color: #2D3748;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
 }
 
 .selected-theme-preview p {
     color: #718096;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
-/* ============================================
-   FORM BUTTONS
-   ============================================ */
 .form-buttons {
     display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
 }
 
 .btn-cancel, .btn-done {
     flex: 1;
-    padding: 1rem;
-    border-radius: 12px;
-    font-size: 1rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1044,51 +882,7 @@ input::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-}
-
-.btn-cancel:focus, .btn-done:focus,
-.btn-cancel:active, .btn-done:active {
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-.btn-cancel {
-    background: #F7FAFC;
-    color: #718096;
-    border: 2px solid #E2E8F0;
-}
-
-.btn-cancel:hover {
-    background: #EDF2F7;
-    border-color: #CBD5E0;
-}
-
-.btn-done {
-    background: linear-gradient(135deg, #3A8DFF 0%, #2B6CB0 100%);
-    color: white;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-done::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: 0.5s;
-}
-
-.btn-done:hover::before {
-    left: 100%;
-}
-
-.btn-done:hover {
-    box-shadow: 0 10px 20px rgba(58, 141, 255, 0.3);
-    transform: translateY(-2px);
+    gap: 8px;
 }
 
 /* ============================================
@@ -1096,54 +890,180 @@ input::-webkit-inner-spin-button {
    ============================================ */
 .toast {
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
     background: white;
-    border-radius: 15px;
-    padding: 1.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     display: none;
     align-items: center;
-    gap: 1rem;
+    gap: 0.8rem;
     z-index: 1001;
-    animation: slideInRight 0.5s ease, slideOutRight 0.5s ease 4.5s forwards;
-    border-left: 5px solid #48BB78;
-    max-width: 400px;
+    max-width: 350px;
+    border-left: 4px solid #48BB78;
 }
 
 .toast-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #48BB78;
 }
 
 .toast-content h4 {
     color: #2D3748;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
+    font-size: 0.95rem;
 }
 
 .toast-content p {
     color: #718096;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
-.toast-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: #A0AEC0;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    text-align: center;
+    padding: 2rem 1.2rem;
+    color: #718096;
+    border-top: 1px solid #E2E8F0;
+    margin-top: 2rem;
+    background: rgba(247, 250, 252, 0.8);
+}
+
+.footer p {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.chat-note {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: #3A8DFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    transition: background 0.3s ease;
+    gap: 8px;
 }
 
-.toast-close:hover {
-    background: #F7FAFC;
+.contact-info {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #718096;
+    line-height: 1.5;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.contact-info i {
+    color: #3A8DFF;
+    font-size: 0.8rem;
+}
+
+/* ============================================
+   CHAT INSTRUCTIONS MODAL
+   ============================================ */
+.chat-instructions-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+    padding: 1rem;
+}
+
+.chat-instructions-modal.active {
+    display: flex;
+}
+
+.chat-instructions-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: modalSlideIn 0.3s ease;
+}
+
+.chat-instructions-icon {
+    font-size: 2.5rem;
+    color: #3A8DFF;
+    margin-bottom: 1rem;
+}
+
+.chat-instructions-content h3 {
+    color: #2D3748;
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.chat-instructions-content p {
+    color: #718096;
+    margin-bottom: 1.2rem;
+    line-height: 1.4;
+    font-size: 0.9rem;
+}
+
+.chat-instructions-button {
+    background: #3A8DFF;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 @keyframes slideInRight {
@@ -1169,263 +1089,208 @@ input::-webkit-inner-spin-button {
 }
 
 /* ============================================
-   PWA TOAST
+   RESPONSIVE DESIGN - MOBILE FIRST
    ============================================ */
-.pwa-toast {
-    border-left: 5px solid #48BB78;
-    background: white;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
 
-/* ============================================
-   FOOTER
-   ============================================ */
-.footer {
-    text-align: center;
-    padding: 2.5rem 2rem;
-    color: #718096;
-    border-top: 1px solid #E2E8F0;
-    margin-top: 2rem;
-    background: rgba(247, 250, 252, 0.8);
-}
-
-.footer i.fa-heart {
-    color: #FC8181;
-    animation: heartbeat 1.5s infinite;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-.chat-note {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    color: #3A8DFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.contact-info {
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    font-size: 0.9rem;
-    color: #718096;
-    line-height: 1.6;
-}
-
-.contact-info span {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-.contact-info i {
-    color: #3A8DFF;
-    font-size: 0.9rem;
-}
-
-/* ============================================
-   OFFLINE INDICATOR
-   ============================================ */
-.offline-indicator {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: #ED8936;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    display: none;
-    align-items: center;
-    gap: 8px;
-    z-index: 9999;
-    animation: pulse 2s infinite;
-    box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
-    font-weight: 500;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
-/* ============================================
-   ANIMATIONS
-   ============================================ */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
+/* Desktop: 3 columns, Tablet: 2 columns, Mobile: 2 columns */
 @media (max-width: 1024px) {
-    .hero-title {
-        font-size: 3rem;
-    }
-    
-    .section-title {
-        font-size: 2.2rem;
-    }
-    
-    .about-content h2 {
-        font-size: 2.2rem;
-    }
-    
-    .chat-widget-content h3 {
-        font-size: 1.8rem;
+    .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 768px) {
-    /* Show mobile chat button, hide desktop button */
-    .mobile-chat-redirect {
-        display: inline-flex;
-    }
-    .desktop-chat-widget {
-        display: none;
-    }
-    
+    /* Mobile Layout Optimizations */
     .header {
-        flex-wrap: wrap;
-        padding: 1rem;
-        gap: 1rem;
-        text-align: center;
+        padding: 0.8rem 1rem;
     }
     
     .logo {
-        order: 1;
-        flex: 1;
-        justify-content: center;
+        font-size: 1.3rem;
     }
     
-    .pwa-install {
-        order: 2;
+    .logo-icon {
+        width: 30px;
+        height: 30px;
     }
     
     .tagline {
-        order: 3;
-        position: relative;
-        left: auto;
-        transform: none;
-        width: 100%;
-        margin-top: 0.5rem;
-        font-size: 0.85rem;
-        white-space: normal;
-        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
     }
     
     .hero {
-        padding: 3rem 1rem;
+        padding: 2rem 1rem;
     }
     
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
     }
     
     .hero-subtitle {
-        font-size: 1.1rem;
-        padding: 0 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
     }
     
     .theme-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 0 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
     
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-        padding: 2rem 1rem;
-        margin: 2rem 1rem 3rem;
+    .theme-image {
+        height: 140px;
+    }
+    
+    .theme-content {
+        padding: 1rem;
+    }
+    
+    .theme-name {
+        font-size: 1rem;
+    }
+    
+    .theme-desc {
+        font-size: 0.8rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .theme-features li {
+        font-size: 0.75rem;
+    }
+    
+    .theme-buttons {
+        flex-direction: row;
+    }
+    
+    .preview-btn-small,
+    .btn-choose {
+        font-size: 0.75rem;
+        padding: 0.5rem;
     }
     
     .about-section {
-        padding: 2rem 1rem;
-        margin: 2rem 1rem;
+        padding: 1.5rem 1rem;
+        margin: 2rem auto;
     }
     
     .about-content h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     
     .about-features {
         grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
+        padding: 1.5rem 1rem;
+        margin: 2rem auto;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+    }
+    
+    .stat-card i {
+        font-size: 1.8rem;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.3rem;
     }
     
     .chat-widget-section {
-        padding: 0 1.5rem;
-        margin: 3rem auto;
+        padding: 0 1rem;
+        margin-bottom: 2rem;
     }
     
     .chat-widget-card {
         flex-direction: column;
-        padding: 2rem;
-        gap: 2rem;
+        padding: 1.5rem;
+        gap: 1.5rem;
         text-align: center;
     }
     
     .chat-widget-icon i {
-        font-size: 4rem;
+        font-size: 3rem;
     }
     
     .chat-widget-content h3 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+    }
+    
+    .chat-widget-content p {
+        font-size: 0.9rem;
     }
     
     .chat-features {
-        justify-content: center;
-        gap: 1rem;
+        gap: 0.8rem;
     }
     
     .chat-feature {
-        padding: 0.6rem 1.2rem;
+        padding: 0.5rem 0.8rem;
     }
     
-    .form-buttons {
-        flex-direction: column;
+    .chat-widget-button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+        width: 100%;
     }
     
-    .toast {
-        left: 1rem;
-        right: 1rem;
-        max-width: none;
-        bottom: 1rem;
+    .modal {
+        padding: 1.2rem;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .footer {
+        padding: 1.5rem 1rem;
     }
     
     .contact-info {
         flex-direction: column;
-        gap: 1rem;
-        text-align: center;
+        gap: 0.8rem;
     }
     
-    .contact-info span {
-        white-space: normal;
-        justify-content: center;
+    .preview-container {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra Small Phones */
+    .theme-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.6rem;
+    }
+    
+    .section-title {
+        font-size: 1.4rem;
+    }
+    
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .chat-widget-card {
+        padding: 1.2rem;
+    }
+    
+    .chat-widget-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
     }
     
     .theme-buttons {
@@ -1435,62 +1300,6 @@ input::-webkit-inner-spin-button {
     .preview-btn-small,
     .btn-choose {
         width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-title {
-        font-size: 2rem;
-    }
-    
-    .section-title {
-        font-size: 1.8rem;
-    }
-    
-    .about-content h2 {
-        font-size: 1.8rem;
-    }
-    
-    .stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .stat-card h3 {
-        font-size: 1.6rem;
-    }
-    
-    .chat-widget-card {
-        padding: 1.5rem;
-    }
-    
-    .chat-widget-content h3 {
-        font-size: 1.5rem;
-    }
-    
-    .chat-widget-content p {
-        font-size: 1rem;
-    }
-    
-    .chat-features {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .modal {
-        padding: 1.5rem;
-        width: 95%;
-    }
-    
-    .modal-header h2 {
-        font-size: 1.5rem;
-    }
-    
-    .footer {
-        padding: 1.5rem 1rem;
-    }
-    
-    .preview-container {
-        max-width: 95%;
     }
 }
 
@@ -1520,6 +1329,6 @@ input::-webkit-inner-spin-button {
     }
     
     .header {
-        padding-top: max(1.5rem, env(safe-area-inset-top));
+        padding-top: max(1rem, env(safe-area-inset-top));
     }
 }
