@@ -13,7 +13,7 @@ const THEMES = [
     {
         id: "premium-gold",
         name: "Premium Gold Labels",
-        tag: "Premium", // Changed from "Luxury" to "Premium"
+        tag: "Premium",
         description: "Gold foil labels with elegant design for premium products and high-end packaging.",
         features: ["Gold foil finishing", "Water-resistant", "Premium adhesive", "Custom shapes"],
         color: "#D4AF37",
@@ -22,7 +22,7 @@ const THEMES = [
     {
         id: "eco-friendly",
         name: "Eco-Friendly Labels",
-        tag: "Premium", // Changed from "Sustainable" to "Premium"
+        tag: "Premium",
         description: "Biodegradable labels made from recycled materials for environmentally conscious brands.",
         features: ["Recycled materials", "Biodegradable", "Eco-friendly ink", "Natural adhesive"],
         color: "#48BB78",
@@ -31,7 +31,7 @@ const THEMES = [
     {
         id: "transparent-clear",
         name: "Transparent Clear Labels",
-        tag: "Premium", // Changed from "Modern" to "Premium"
+        tag: "Premium",
         description: "Crystal clear labels that blend seamlessly with any product packaging.",
         features: ["100% transparent", "UV resistant", "Scratch-proof", "No background"],
         color: "#4299E1",
@@ -40,7 +40,7 @@ const THEMES = [
     {
         id: "metallic-silver",
         name: "Metallic Silver Labels",
-        tag: "Premium", // Changed from "Professional" to "Premium"
+        tag: "Premium",
         description: "Silver metallic labels for a sleek, premium look on industrial and tech products.",
         features: ["Metallic finish", "Industrial grade", "Weather resistant", "Long-lasting"],
         color: "#A0AEC0",
@@ -49,7 +49,7 @@ const THEMES = [
     {
         id: "colorful-print",
         name: "Colorful Print Labels",
-        tag: "Premium", // Changed from "Vibrant" to "Premium"
+        tag: "Premium",
         description: "Full-color printed labels with vibrant graphics for food, beverage, and retail products.",
         features: ["Full-color printing", "High-resolution", "Food-safe", "Custom artwork"],
         color: "#ED8936",
@@ -58,7 +58,7 @@ const THEMES = [
     {
         id: "waterproof-industrial",
         name: "Waterproof Industrial Labels",
-        tag: "Premium", // Changed from "Durable" to "Premium"
+        tag: "Premium",
         description: "Heavy-duty waterproof labels designed for industrial use and outdoor applications.",
         features: ["100% waterproof", "Chemical resistant", "High temperature", "Extra adhesive"],
         color: "#2D3748",
@@ -101,7 +101,9 @@ const dom = {
     previewThemeName: document.getElementById('previewThemeName'),
     previewDescription: document.getElementById('previewDescription'),
     previewFeatures: document.getElementById('previewFeatures'),
-    selectFromPreview: document.getElementById('selectFromPreview')
+    selectFromPreview: document.getElementById('selectFromPreview'),
+    // Chat instructions
+    chatInstructionsModal: document.getElementById('chatInstructionsModal')
 };
 
 // ============================================
@@ -127,10 +129,13 @@ function initializeApp() {
     
     // Add Chat With Us widget
     addChatWidget();
+    
+    // Setup chat button after a delay to ensure Tidio is loaded
+    setTimeout(setupChatButton, 2000);
 }
 
 // ============================================
-// CHAT WIDGET FUNCTIONS
+// CHAT WIDGET FUNCTIONS - WORKING VERSION
 // ============================================
 function addChatWidget() {
     const chatWidgetHTML = `
@@ -178,73 +183,142 @@ function addChatWidget() {
     const footer = document.querySelector('.footer');
     if (footer) {
         footer.insertAdjacentHTML('beforebegin', chatWidgetHTML);
-        
-        // Add event listener for desktop chat button
-        const desktopChatBtn = document.getElementById('openTidioChat');
-        if (desktopChatBtn) {
-            desktopChatBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                openTidioChat();
-            });
-        }
     }
 }
 
-// Function to open Tidio chat widget
+// Main function to open Tidio chat
 function openTidioChat() {
-    if (typeof tidioChatApi !== 'undefined') {
-        // If Tidio is loaded, open the chat
-        tidioChatApi.open();
-    } else if (window.tidioChatApi) {
-        // Alternative method
+    console.log('🔵 Opening Tidio chat...');
+    
+    // Method 1: Direct Tidio API (most reliable if available)
+    if (window.tidioChatApi) {
+        console.log('✅ Using window.tidioChatApi.open()');
         window.tidioChatApi.open();
-    } else {
-        // Fallback: try to find and click the Tidio button
-        const tidioButton = document.querySelector('#button button, [data-testid="widgetButton"], .tidio-chat');
-        if (tidioButton) {
-            tidioButton.click();
-        } else {
-            // If no Tidio button found, show manual trigger method
-            console.log('Tidio chat not found, attempting manual trigger');
-            triggerTidioChat();
+        return true;
+    }
+    
+    // Method 2: Look for Tidio button and click it
+    console.log('🔍 Looking for Tidio button...');
+    
+    // Try multiple selectors
+    const selectors = [
+        '#button button',
+        '.tidio-chat',
+        '[data-testid="widgetButton"]',
+        '[id*="tidio"]',
+        '[class*="tidio"]'
+    ];
+    
+    for (const selector of selectors) {
+        const element = document.querySelector(selector);
+        if (element) {
+            console.log(`✅ Found Tidio element with selector: ${selector}`);
+            element.click();
+            
+            // Also trigger mouse events
+            setTimeout(() => {
+                element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+                element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+                element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+            }, 100);
+            
+            return true;
         }
     }
-}
-
-// Alternative method to trigger Tidio chat
-function triggerTidioChat() {
-    // Method 1: Try to dispatch click event on Tidio iframe
-    const tidioIframe = document.querySelector('iframe[src*="tidio"]');
-    if (tidioIframe && tidioIframe.contentWindow) {
+    
+    // Method 3: Check if Tidio button is in iframe
+    const iframes = document.querySelectorAll('iframe');
+    for (const iframe of iframes) {
         try {
-            const iframeDoc = tidioIframe.contentDocument || tidioIframe.contentWindow.document;
-            const chatButton = iframeDoc.querySelector('#button, [data-testid="widgetButton"]');
-            if (chatButton) {
-                chatButton.click();
+            if (iframe.src && iframe.src.includes('tidio')) {
+                console.log('✅ Found Tidio iframe');
+                // Try to send message to iframe
+                iframe.contentWindow.postMessage({ 
+                    action: 'openChat',
+                    type: 'tidio-chat-expanded' 
+                }, '*');
                 return true;
             }
         } catch (e) {
-            console.log('Cannot access Tidio iframe:', e);
+            console.log('Cannot access iframe:', e);
         }
     }
     
-    // Method 2: Try to find and click the actual Tidio button
-    const tidioWidget = document.querySelector('#tidio-chat iframe');
-    if (tidioWidget) {
-        try {
-            tidioWidget.contentWindow.postMessage({ type: 'tidio-chat-expanded' }, '*');
-        } catch (e) {
-            console.log('Cannot post message to Tidio:', e);
-        }
-    }
+    // Method 4: Try to find button by its common position (bottom-right)
+    console.log('📍 Trying to find button by position...');
+    findAndClickTidioByPosition();
     
-    // Method 3: Show a message if all fails
-    alert('Please click the chat icon in the bottom right corner to start chatting with us.');
+    // Method 5: Show instructions if all else fails
+    setTimeout(() => {
+        showChatInstructions();
+    }, 500);
+    
     return false;
 }
 
+// Try to find Tidio button by its common position
+function findAndClickTidioByPosition() {
+    const positions = [
+        { x: window.innerWidth - 80, y: window.innerHeight - 80 },
+        { x: window.innerWidth - 100, y: window.innerHeight - 100 },
+        { x: window.innerWidth - 60, y: window.innerHeight - 60 }
+    ];
+    
+    positions.forEach(pos => {
+        const element = document.elementFromPoint(pos.x, pos.y);
+        if (element && (element.tagName === 'BUTTON' || element.tagName === 'DIV' || element.tagName === 'SPAN')) {
+            console.log('✅ Found element at position:', element);
+            element.click();
+            
+            // Try to find nested button
+            const button = element.querySelector('button') || element;
+            button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        }
+    });
+}
+
+// Show chat instructions modal
+function showChatInstructions() {
+    console.log('📢 Showing chat instructions');
+    if (dom.chatInstructionsModal) {
+        dom.chatInstructionsModal.classList.add('active');
+    }
+}
+
+// Setup chat button event listener
+function setupChatButton() {
+    const chatBtn = document.getElementById('openTidioChat');
+    if (chatBtn) {
+        chatBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('🎯 Chat button clicked');
+            
+            // Try multiple methods with delays
+            let attempts = 0;
+            const maxAttempts = 3;
+            
+            const tryOpenChat = setInterval(() => {
+                attempts++;
+                console.log(`Attempt ${attempts} to open chat...`);
+                
+                if (openTidioChat()) {
+                    console.log('✅ Chat opened successfully');
+                    clearInterval(tryOpenChat);
+                    return;
+                }
+                
+                if (attempts >= maxAttempts) {
+                    console.log('❌ Could not open chat after multiple attempts');
+                    clearInterval(tryOpenChat);
+                    showChatInstructions();
+                }
+            }, 300);
+        });
+    }
+}
+
 // ============================================
-// THEME RENDERING WITH PREVIEW BUTTON
+// THEME RENDERING
 // ============================================
 function renderThemes() {
     if (!dom.themeGrid) return;
@@ -296,7 +370,7 @@ function createThemeCard(theme) {
 }
 
 // ============================================
-// PREVIEW MODAL FUNCTIONS (Updated for 3:4 aspect ratio)
+// PREVIEW MODAL FUNCTIONS
 // ============================================
 function openImagePreview(theme) {
     if (!theme || !dom.imagePreviewModal) return;
@@ -314,7 +388,7 @@ function openImagePreview(theme) {
         <div class="preview-image-content" style="
             background: ${theme.previewColor};
             width: 100%;
-            padding-top: 133.33%; /* 4:3 aspect ratio (4/3 * 100 = 133.33%) */
+            padding-top: 133.33%;
             position: relative;
         ">
             <div style="
@@ -827,11 +901,14 @@ console.log(`
        BLUEPURE - CUSTOM LABELS PRODUCER
 ===================================================
 📍 Location: Dubey Colony Padawa, Khandwa MP India
-📧 Email: bluepureindia@gmail.com & Bluepureapp@gmail.com
+📧 Email: bluepureindia@gmail.com
 📞 Phone: +91 6261491292
 ⭐ Rating: 9.3/10 Client Satisfaction
-🚀 Version: 1.0.0
+🚀 Version: 2.1.0
 ===================================================
 `,
 'color: #3A8DFF; font-weight: bold;'
 );
+
+console.log('🔧 Tidio Chat Integration: READY');
+console.log('💡 Tip: Open browser console (F12) to see debug messages');
