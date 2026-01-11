@@ -13,8 +13,8 @@ const THEMES = [
     {
         id: "premium-gold",
         name: "Premium Gold Labels",
-        tag: "Luxury",
-        description: "Gold foil labels with elegant design for luxury products and high-end packaging.",
+        tag: "Premium", // Changed from "Luxury" to "Premium"
+        description: "Gold foil labels with elegant design for premium products and high-end packaging.",
         features: ["Gold foil finishing", "Water-resistant", "Premium adhesive", "Custom shapes"],
         color: "#D4AF37",
         previewColor: "linear-gradient(135deg, #D4AF37, #B8860B)"
@@ -22,7 +22,7 @@ const THEMES = [
     {
         id: "eco-friendly",
         name: "Eco-Friendly Labels",
-        tag: "Sustainable",
+        tag: "Premium", // Changed from "Sustainable" to "Premium"
         description: "Biodegradable labels made from recycled materials for environmentally conscious brands.",
         features: ["Recycled materials", "Biodegradable", "Eco-friendly ink", "Natural adhesive"],
         color: "#48BB78",
@@ -31,7 +31,7 @@ const THEMES = [
     {
         id: "transparent-clear",
         name: "Transparent Clear Labels",
-        tag: "Modern",
+        tag: "Premium", // Changed from "Modern" to "Premium"
         description: "Crystal clear labels that blend seamlessly with any product packaging.",
         features: ["100% transparent", "UV resistant", "Scratch-proof", "No background"],
         color: "#4299E1",
@@ -40,8 +40,8 @@ const THEMES = [
     {
         id: "metallic-silver",
         name: "Metallic Silver Labels",
-        tag: "Professional",
-        description: "Silver metallic labels for a sleek, professional look on industrial and tech products.",
+        tag: "Premium", // Changed from "Professional" to "Premium"
+        description: "Silver metallic labels for a sleek, premium look on industrial and tech products.",
         features: ["Metallic finish", "Industrial grade", "Weather resistant", "Long-lasting"],
         color: "#A0AEC0",
         previewColor: "linear-gradient(135deg, #A0AEC0, #718096)"
@@ -49,7 +49,7 @@ const THEMES = [
     {
         id: "colorful-print",
         name: "Colorful Print Labels",
-        tag: "Vibrant",
+        tag: "Premium", // Changed from "Vibrant" to "Premium"
         description: "Full-color printed labels with vibrant graphics for food, beverage, and retail products.",
         features: ["Full-color printing", "High-resolution", "Food-safe", "Custom artwork"],
         color: "#ED8936",
@@ -58,7 +58,7 @@ const THEMES = [
     {
         id: "waterproof-industrial",
         name: "Waterproof Industrial Labels",
-        tag: "Durable",
+        tag: "Premium", // Changed from "Durable" to "Premium"
         description: "Heavy-duty waterproof labels designed for industrial use and outdoor applications.",
         features: ["100% waterproof", "Chemical resistant", "High temperature", "Extra adhesive"],
         color: "#2D3748",
@@ -125,15 +125,14 @@ function initializeApp() {
     setupEventListeners();
     updateNetworkStatus();
     
-    // Add Chat With Us widget (like Browse Themes)
+    // Add Chat With Us widget
     addChatWidget();
 }
 
 // ============================================
-// CHAT WITH US WIDGET (LIKE BROWSE THEMES)
+// CHAT WIDGET FUNCTIONS
 // ============================================
 function addChatWidget() {
-    // Create chat widget HTML - styled like theme cards
     const chatWidgetHTML = `
         <section class="chat-widget-section">
             <h2 class="section-title">Need Help?</h2>
@@ -158,196 +157,90 @@ function addChatWidget() {
                             <span>Free Quotes</span>
                         </div>
                     </div>
-                    <a href="https://bluepureapp.github.io/#mobile-widget" target="_blank" class="chat-widget-button">
+                    
+                    <!-- Mobile Chat Button (redirects to mobile widget) -->
+                    <a href="https://bluepureapp.github.io/#mobile-widget" target="_blank" class="chat-widget-button mobile-chat-redirect">
                         <i class="fas fa-comment-dots"></i>
                         Start Chat Now
                     </a>
+                    
+                    <!-- Desktop Chat Button (opens Tidio chat) -->
+                    <button class="chat-widget-button desktop-chat-widget" id="openTidioChat">
+                        <i class="fas fa-comment-dots"></i>
+                        Start Chat Now
+                    </button>
                 </div>
             </div>
         </section>
     `;
     
-    // Insert after about section
-    const aboutSection = document.querySelector('.about-section');
-    if (aboutSection) {
-        aboutSection.insertAdjacentHTML('afterend', chatWidgetHTML);
+    // Insert before footer (after business info section)
+    const footer = document.querySelector('.footer');
+    if (footer) {
+        footer.insertAdjacentHTML('beforebegin', chatWidgetHTML);
+        
+        // Add event listener for desktop chat button
+        const desktopChatBtn = document.getElementById('openTidioChat');
+        if (desktopChatBtn) {
+            desktopChatBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openTidioChat();
+            });
+        }
+    }
+}
+
+// Function to open Tidio chat widget
+function openTidioChat() {
+    if (typeof tidioChatApi !== 'undefined') {
+        // If Tidio is loaded, open the chat
+        tidioChatApi.open();
+    } else if (window.tidioChatApi) {
+        // Alternative method
+        window.tidioChatApi.open();
     } else {
-        // Fallback: insert before footer
-        const footer = document.querySelector('.footer');
-        if (footer) {
-            footer.insertAdjacentHTML('beforebegin', chatWidgetHTML);
+        // Fallback: try to find and click the Tidio button
+        const tidioButton = document.querySelector('#button button, [data-testid="widgetButton"], .tidio-chat');
+        if (tidioButton) {
+            tidioButton.click();
+        } else {
+            // If no Tidio button found, show manual trigger method
+            console.log('Tidio chat not found, attempting manual trigger');
+            triggerTidioChat();
+        }
+    }
+}
+
+// Alternative method to trigger Tidio chat
+function triggerTidioChat() {
+    // Method 1: Try to dispatch click event on Tidio iframe
+    const tidioIframe = document.querySelector('iframe[src*="tidio"]');
+    if (tidioIframe && tidioIframe.contentWindow) {
+        try {
+            const iframeDoc = tidioIframe.contentDocument || tidioIframe.contentWindow.document;
+            const chatButton = iframeDoc.querySelector('#button, [data-testid="widgetButton"]');
+            if (chatButton) {
+                chatButton.click();
+                return true;
+            }
+        } catch (e) {
+            console.log('Cannot access Tidio iframe:', e);
         }
     }
     
-    // Add CSS for chat widget
-    const style = document.createElement('style');
-    style.textContent = `
-        .chat-widget-section {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
+    // Method 2: Try to find and click the actual Tidio button
+    const tidioWidget = document.querySelector('#tidio-chat iframe');
+    if (tidioWidget) {
+        try {
+            tidioWidget.contentWindow.postMessage({ type: 'tidio-chat-expanded' }, '*');
+        } catch (e) {
+            console.log('Cannot post message to Tidio:', e);
         }
-        
-        .chat-widget-card {
-            background: linear-gradient(135deg, #3A8DFF 0%, #2B6CB0 100%);
-            border-radius: 25px;
-            padding: 3rem;
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            color: white;
-            box-shadow: 0 20px 40px rgba(58, 141, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .chat-widget-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" opacity="0.1"><path d="M0,50 Q250,0 500,50 T1000,50 V100 H0 Z" fill="white"/></svg>');
-            background-size: cover;
-            opacity: 0.1;
-        }
-        
-        .chat-widget-icon {
-            flex-shrink: 0;
-        }
-        
-        .chat-widget-icon i {
-            font-size: 5rem;
-            color: white;
-            filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
-        }
-        
-        .chat-widget-content {
-            flex: 1;
-        }
-        
-        .chat-widget-content h3 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            color: white;
-        }
-        
-        .chat-widget-content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-        }
-        
-        .chat-features {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .chat-feature {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .chat-feature i {
-            font-size: 1.2rem;
-        }
-        
-        .chat-feature span {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        
-        .chat-widget-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: white;
-            color: #3A8DFF;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .chat-widget-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            background: #F7FAFC;
-        }
-        
-        .chat-widget-button:active {
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 768px) {
-            .chat-widget-section {
-                padding: 0 1.5rem;
-                margin: 3rem auto;
-            }
-            
-            .chat-widget-card {
-                flex-direction: column;
-                padding: 2rem;
-                gap: 2rem;
-                text-align: center;
-            }
-            
-            .chat-widget-icon i {
-                font-size: 4rem;
-            }
-            
-            .chat-widget-content h3 {
-                font-size: 1.8rem;
-            }
-            
-            .chat-features {
-                justify-content: center;
-                gap: 1rem;
-            }
-            
-            .chat-feature {
-                padding: 0.6rem 1.2rem;
-            }
-            
-            .chat-widget-button {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .chat-widget-card {
-                padding: 1.5rem;
-            }
-            
-            .chat-widget-content h3 {
-                font-size: 1.5rem;
-            }
-            
-            .chat-widget-content p {
-                font-size: 1rem;
-            }
-            
-            .chat-features {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    `;
-    document.head.appendChild(style);
+    }
+    
+    // Method 3: Show a message if all fails
+    alert('Please click the chat icon in the bottom right corner to start chatting with us.');
+    return false;
 }
 
 // ============================================
@@ -403,7 +296,7 @@ function createThemeCard(theme) {
 }
 
 // ============================================
-// PREVIEW MODAL FUNCTIONS
+// PREVIEW MODAL FUNCTIONS (Updated for 3:4 aspect ratio)
 // ============================================
 function openImagePreview(theme) {
     if (!theme || !dom.imagePreviewModal) return;
@@ -416,9 +309,31 @@ function openImagePreview(theme) {
     dom.previewThemeName.textContent = theme.name;
     dom.previewDescription.textContent = theme.description;
     
-    // Set preview image background
+    // Set preview image with 3:4 aspect ratio
     dom.previewImage.innerHTML = `
-        <div class="preview-image-content" style="background: ${theme.previewColor};"></div>
+        <div class="preview-image-content" style="
+            background: ${theme.previewColor};
+            width: 100%;
+            padding-top: 133.33%; /* 4:3 aspect ratio (4/3 * 100 = 133.33%) */
+            position: relative;
+        ">
+            <div style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1.2rem;
+                font-weight: bold;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            ">
+                ${theme.name}
+            </div>
+        </div>
     `;
     
     // Update features
@@ -497,7 +412,7 @@ function setupEventListeners() {
             const theme = THEMES.find(t => t.id === themeId);
             
             if (theme) {
-                handleThemeSelection(theme, false); // false = not from preview
+                handleThemeSelection(theme, false);
             }
         }
     });
@@ -523,7 +438,7 @@ function setupEventListeners() {
             e.preventDefault();
             if (currentState.selectedTheme) {
                 closeImagePreview();
-                handleThemeSelection(currentState.selectedTheme, true); // true = from preview
+                handleThemeSelection(currentState.selectedTheme, true);
             }
         });
     }
@@ -704,6 +619,7 @@ function saveUserData(userData) {
     currentState.userData = dataToSave;
     console.log('💾 User data saved');
 }
+
 // ============================================
 // FORM EVENT LISTENERS
 // ============================================
@@ -911,10 +827,10 @@ console.log(`
        BLUEPURE - CUSTOM LABELS PRODUCER
 ===================================================
 📍 Location: Dubey Colony Padawa, Khandwa MP India
-📧 Email: bluepureindia@gmail.com
+📧 Email: bluepureindia@gmail.com & Bluepureapp@gmail.com
 📞 Phone: +91 6261491292
 ⭐ Rating: 9.3/10 Client Satisfaction
-🚀 Version: 2.1.0
+🚀 Version: 1.0.0
 ===================================================
 `,
 'color: #3A8DFF; font-weight: bold;'
